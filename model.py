@@ -14,7 +14,7 @@ class User(db.model):
 
 
 class Venue(db.model):
-    """Restaurants that app has sent users to."""
+    """Restaurant that a user has visited through the app."""
 
     __tablename__ = 'venues'
 
@@ -25,7 +25,7 @@ class Venue(db.model):
 
 
 class Visit(db.model):
-    """Visits users have made to venues."""
+    """Visit that a user has made to a venue."""
 
     __tablename__ = 'visits'
 

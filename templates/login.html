@@ -1,1 +1,13 @@
 {% extends 'base.html' %}
+
+<h4>Already registered? Log in here:</h4>
+<form action='/submit' method='POST'>
+    <label>Email: <input type='text' name='email' id='field-email'></label>
+    <label>Password: <input type='password' name='password' id='field-password'></label>
+
+
+<h4>Not yet registered? Register here:</h4>
+
+<form action='/register' method='POST'>
+    <label>Email: <input type='text' name='new-email' id='field-new-email'></label>
+    <label>Password: <input type='password' name='new-password' id='field-new-password'></label>

@@ -6,4 +6,9 @@ RR Homepage
 
 {% block content %}
 This is the homepage
+
+<h4>Where are you?</h4>
+<form action='/yelp_search' method='GET'>
+    <label>Current Address: <input type='text' name='user-address' id='field-user-address'></label>
+
 {% endblock %}

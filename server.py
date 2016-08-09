@@ -2,7 +2,7 @@ import os
 from flask import Flask, render_template, redirect, request, flash, session
 from flask_sqlalchemy import SQLAlchemy
 from model import User, Venue, Visit, connect_to_db, db
-from random import choice
+from random import randint
 from yelp.client import Client
 from yelp.oauth1_authenticator import Oauth1Authenticator
 
@@ -88,6 +88,7 @@ def logout():
 ################################################
 # App functionality routes
 
+# *********** old yelp search route ***********
 @app.route('/yelp_search')
 def search_yelp():
     # using Python os.environ to access environment variables
@@ -96,7 +97,7 @@ def search_yelp():
         consumer_secret=os.environ['yelp_consumer_secret'],
         token=os.environ['yelp_token'],
         token_secret=os.environ['yelp_token_secret'])
-
+    
     # retrieve user's address and create dict with search params
     location = request.args.get('user-address')
     params = {'category_filter': 'Restaurants'}
@@ -105,9 +106,37 @@ def search_yelp():
     client = Client(yelp_auth)
 
     # using client to call API
-    # client.search('%s', *params) % location
-    result = client.search(location, *params)
+    result = client.search(location, **params)
+
     return result.businesses[0].name
+
+# *********** new yelp search route ***********
+# @app.route('/yelp_search')
+# def search_yelp():
+
+#     # using Python os.environ to access environment variables
+#     consumer_key=os.environ['yelp_consumer_key']
+#     consumer_secret=os.environ['yelp_consumer_secret']
+#     token=os.environ['yelp_token']
+#     token_secret=os.environ['yelp_token_secret']
+
+
+#     yelp_api = YelpAPI(consumer_key, consumer_secret, token, token_secret)
+ 
+#     # retrieve user's address and create dict with search params
+#     location = request.args.get('user-address')
+    
+#     # API call
+#     yelp_search_response = yelp_api.search_query(location=location)
+#     return yelp_search_response
+#     # create a list to store returned results
+#     responses = []
+#     choicenumber = randint(1, len(responses))
+#     venuechoice = responses[choicenumber]
+
+
+#     # generate randint between 1 and # of business returned in object
+#     # grab name, cuisine, address of result.businesses[randint]
 
 
 @app.route('/process_ride')

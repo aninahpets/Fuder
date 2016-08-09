@@ -62,3 +62,6 @@ if __name__ == "__main__":
     # with the database
     from server import app
     connect_to_db(app)
+
+
+    

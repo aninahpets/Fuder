@@ -1,13 +1,18 @@
 {% extends 'base.html' %}
 
+{% block content %}
 <h4>Already registered? Log in here:</h4>
-<form action='/submit' method='POST'>
+<form action='/login_submit' method='POST'>
     <label>Email: <input type='text' name='email' id='field-email'></label>
     <label>Password: <input type='password' name='password' id='field-password'></label>
+    <input type='submit' name='login-button' id='field-login-button' value='Log In'></form>
 
 
 <h4>Not yet registered? Register here:</h4>
 
 <form action='/register' method='POST'>
-    <label>Email: <input type='text' name='new-email' id='field-new-email'></label>
-    <label>Password: <input type='password' name='new-password' id='field-new-password'></label>
+    <label>Email: <input type='text' name='email' id='field-new-email'></label>
+    <label>Password: <input type='password' name='password' id='field-new-password'></label>
+    <input type='submit' name='register-button' id='field-register-button' value='Register'></form>
+
+{% endblock %}

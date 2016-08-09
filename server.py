@@ -1,11 +1,14 @@
 import os
-from flask import (Flask, render_template, redirect, request, flash, session)
-from model import User, Venue, Visit, connect_to_db, db
+from flask import Flask, render_template, redirect, request, flash, session
 from flask_sqlalchemy import SQLAlchemy
+from model import User, Venue, Visit, connect_to_db, db
+from random import choice
 from yelp.client import Client
 from yelp.oauth1_authenticator import Oauth1Authenticator
 
 app = Flask(__name__)
+app.secret_key = "secretkeysecret"
+
 
 @app.route('/')
 def index():
@@ -18,11 +21,16 @@ def index():
         flash('Please log in.')
         return redirect('/login')
 
+
 @app.route('/login')
 def login():
-    """Provides user login"""
+    """Provides user login form"""
 
-    return render_template('login.html')
+    if 'user_id' in session:
+        return render_template('index.html')
+    else:
+        return render_template('login.html')
+
 
 @app.route('/yelp_search')
 def search_yelp():
@@ -33,44 +41,60 @@ def search_yelp():
         token=os.environ['yelp_token'],
         token_secret=os.environ['yelp_token_secret'])
 
+    # retrieve user's location and create dict with search params
     location = request.args.get('user-address')
-
     params = {'term': 'restaurant', 'location': location}
 
+    # API call
     client = Client(yelp_auth)
     result = client.search(params)
     return result
 
 
-@app.route('/submit', methods=['POST'])
+@app.route('/login_submit', methods=['POST'])
 def submit_login():
     email = request.form.get('email')
     password = request.form.get('password')
 
-    # checks for existing user in database
+    # retrieves user object from database
     user = User.query.filter_by(email=email).one()
     user_id = user.user_id
 
-    # checks to see if another user is already logged in and logs them out if so
+    # logs current user out if session exists
     if 'user_id' in session:
         del session['user_id']
 
-        # checks for password match
-        if user.password == password:
-            return redirect('/')
-        else:
-            flash('Your password was incorrect. Please try again.')
-            return redirect('/login')
+    # checks for password match and creates new session if successful
+    if user.password == password:
+        session['user_id'] = user.user_id
+        return redirect('/')
+    # redirects to login page if unsuccessful
+    else:
+        flash('Your password was incorrect. Please try again.')
+        return redirect('/login')
 
 
 @app.route('/register', methods=['POST'])
 def register():
-    email = request.form.get('new-email')
-    password = request.form.get('new-password')
+    # TO DO: Add error handling for duplicate email
+    # TO DO: Form validation
+    email = request.form.get('email')
+    password = request.form.get('password')
+
+    # create new user instance and add to database
+    new_user = User(email=email, password=password)
+    db.session.add(new_user)
+    db.session.commit()
+
+    # retrieves newly created user object and creates new session
+    user = User.query.filter_by(email=email).one()
+    user_id = user.user_id
+    session['user_id'] = user.user_id
+    return redirect('/')
     
 
 @app.route('/request')
-def request():
+def request_ride():
     """User view while Uber ride request is processing"""
 
     return render_template('processing.html')
@@ -92,5 +116,5 @@ if __name__ == '__main__':
    
     # DebugToolbarExtension(app)
 
-    app.run()
+    app.run(host='0.0.0.0')
 

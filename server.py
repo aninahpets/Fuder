@@ -22,6 +22,9 @@ def index():
         return redirect('/login')
 
 
+################################################
+# User management routes
+
 @app.route('/login')
 def login():
     """Provides user login form"""
@@ -30,26 +33,6 @@ def login():
         return render_template('index.html')
     else:
         return render_template('login.html')
-
-
-@app.route('/yelp_search')
-def search_yelp():
-    # using Python os.environ to access environment variables
-    yelp_auth = Oauth1Authenticator(
-        consumer_key=os.environ['yelp_consumer_key'],
-        consumer_secret=os.environ['yelp_consumer_secret'],
-        token=os.environ['yelp_token'],
-        token_secret=os.environ['yelp_token_secret'])
-
-    # retrieve user's location and create dict with search params
-    location = request.args.get('user-address')
-    params = {'term': 'restaurant', 'location': location}
-
-    # API call
-    client = Client(yelp_auth)
-    result = client.search(params)
-    return result
-
 
 @app.route('/login_submit', methods=['POST'])
 def submit_login():
@@ -76,8 +59,8 @@ def submit_login():
 
 @app.route('/register', methods=['POST'])
 def register():
-    # TO DO: Add error handling for duplicate email
-    # TO DO: Form validation
+    # TODO: Add error handling for duplicate email
+    # TODO: Form validation
     email = request.form.get('email')
     password = request.form.get('password')
 
@@ -91,10 +74,44 @@ def register():
     user_id = user.user_id
     session['user_id'] = user.user_id
     return redirect('/')
-    
 
-@app.route('/request')
-def request_ride():
+# TODO: actually direct to this route...
+@app.route('/logout')
+def logout():
+    """Logs user out and removes session"""
+
+    del session['user_id']
+    flash('You are now logged out.')
+    return redirect('/login')
+
+
+################################################
+# App functionality routes
+
+@app.route('/yelp_search')
+def search_yelp():
+    # using Python os.environ to access environment variables
+    yelp_auth = Oauth1Authenticator(
+        consumer_key=os.environ['yelp_consumer_key'],
+        consumer_secret=os.environ['yelp_consumer_secret'],
+        token=os.environ['yelp_token'],
+        token_secret=os.environ['yelp_token_secret'])
+
+    # retrieve user's address and create dict with search params
+    location = request.args.get('user-address')
+    params = {'category_filter': 'Restaurants'}
+
+    # constucting a client (instance of Oauth1Authenticator)
+    client = Client(yelp_auth)
+
+    # using client to call API
+    # client.search('%s', *params) % location
+    result = client.search(location, *params)
+    return result.businesses[0].name
+
+
+@app.route('/process_ride')
+def process_ride():
     """User view while Uber ride request is processing"""
 
     return render_template('processing.html')

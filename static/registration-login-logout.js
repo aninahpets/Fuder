@@ -1,9 +1,9 @@
-function alertMe(evt) {
-    alert('This is a test');
-}
+// function testHandler(evt) {
+//     alert('This is a test');
+// }
 
-$('#button-logout').click(function (evt) {
-    alert('This is a test');
+$('#button-logout').click(function() {
+        alert('This is a test');
     }
 );
 

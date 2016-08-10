@@ -108,7 +108,8 @@ def search_yelp():
     result = client.search(location, **params)
 
     # selecting the business to which we will send the user
-    optionsnumber = randint(1,20)
+    # optionsnumber = randint(1,20)
+    optionsnumber = 1
     destination = {'name': result.businesses[optionsnumber].name,
         'address': result.businesses[optionsnumber].location.display_address,
         'id': result.businesses[optionsnumber].id,
@@ -123,9 +124,11 @@ def search_yelp():
         db.session.add(new_visit)
         db.session.commit()
    
-    except:
+    except: #put error here: sqlalchemy.orm.exc.NoResultFound: No row was found for one()
         new_venue = Venue(venue_id=destination['id'],
                             name=destination['name'],
+                            # address=destination['location.address'],
+                            # coordinates=destination['location.coordinate'],
                             latitude=destination['latitude'],
                             longitude=destination['longitude'])
         db.session.add(new_venue)
@@ -135,9 +138,9 @@ def search_yelp():
                             venue_id=destination['id'])
         db.session.add(new_visit)
         db.session.commit()
-        
+
     print new_venue
-    return destination['name']
+    return destination['name'], destination['address']
 
 
 @app.route('/process_ride')

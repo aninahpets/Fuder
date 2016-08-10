@@ -88,7 +88,6 @@ def logout():
 ################################################
 # App functionality routes
 
-# *********** old yelp search route ***********
 @app.route('/yelp_search')
 def search_yelp():
     # using Python os.environ to access environment variables
@@ -100,7 +99,7 @@ def search_yelp():
     
     # retrieve user's address and create dict with search params
     location = request.args.get('user-address')
-    params = {'category_filter': 'Restaurants'}
+    params = {'category_filter': 'restaurants', 'limit': 20}
 
     # constucting a client (instance of Oauth1Authenticator)
     client = Client(yelp_auth)
@@ -108,35 +107,37 @@ def search_yelp():
     # using client to call API
     result = client.search(location, **params)
 
-    return result.businesses[0].name
+    # selecting the business to which we will send the user
+    optionsnumber = randint(1,20)
+    destination = {'name': result.businesses[optionsnumber].name,
+        'address': result.businesses[optionsnumber].location.display_address,
+        'id': result.businesses[optionsnumber].id,
+        'latitude': result.businesses[optionsnumber].location.coordinate.latitude,
+        'longitude': result.businesses[optionsnumber].location.coordinate.longitude}
 
-# *********** new yelp search route ***********
-# @app.route('/yelp_search')
-# def search_yelp():
+    # checks to see if the venue exists in the database and creates a visit record
+    try:
+        matches = db.session.query(Venue).filter_by(id=destination['id']).one()
+        new_visit = Visit(user_id=session['user_id'],
+                            venue_id=destination['id'])
+        db.session.add(new_visit)
+        db.session.commit()
+   
+    except:
+        new_venue = Venue(venue_id=destination['id'],
+                            name=destination['name'],
+                            latitude=destination['latitude'],
+                            longitude=destination['longitude'])
+        db.session.add(new_venue)
+        db.session.commit()
 
-#     # using Python os.environ to access environment variables
-#     consumer_key=os.environ['yelp_consumer_key']
-#     consumer_secret=os.environ['yelp_consumer_secret']
-#     token=os.environ['yelp_token']
-#     token_secret=os.environ['yelp_token_secret']
-
-
-#     yelp_api = YelpAPI(consumer_key, consumer_secret, token, token_secret)
- 
-#     # retrieve user's address and create dict with search params
-#     location = request.args.get('user-address')
-    
-#     # API call
-#     yelp_search_response = yelp_api.search_query(location=location)
-#     return yelp_search_response
-#     # create a list to store returned results
-#     responses = []
-#     choicenumber = randint(1, len(responses))
-#     venuechoice = responses[choicenumber]
-
-
-#     # generate randint between 1 and # of business returned in object
-#     # grab name, cuisine, address of result.businesses[randint]
+        new_visit = Visit(user_id=session['user_id'],
+                            venue_id=destination['id'])
+        db.session.add(new_visit)
+        db.session.commit()
+        
+    print new_venue
+    return destination['name']
 
 
 @app.route('/process_ride')

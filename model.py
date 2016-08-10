@@ -18,10 +18,10 @@ class Venue(db.Model):
 
     __tablename__ = 'venues'
 
-    venue_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    name = db.Column(db.String(50), nullable=False)
-    latitude = db.Column(db.Float(10,6), nullable=False)
-    longitude = db.Column(db.Float(10,6), nullable=False)
+    venue_id = db.Column(db.String(75), primary_key=True)
+    name = db.Column(db.String(75), nullable=False)
+    latitude = db.Column(db.Float(10,6), nullable=True)
+    longitude = db.Column(db.Float(10,6), nullable=True)
 
 
 class Visit(db.Model):
@@ -32,7 +32,7 @@ class Visit(db.Model):
     visit_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'),
                         nullable=False)
-    venue_id = db.Column(db.Integer, db.ForeignKey('venues.venue_id'),
+    venue_id = db.Column(db.String, db.ForeignKey('venues.venue_id'),
                         nullable=False)
     visited_at = db.Column(db.DateTime,
                          default=datetime.utcnow())

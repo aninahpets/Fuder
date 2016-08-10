@@ -8,6 +8,16 @@
 <script src='https://code.jquery.com/jquery.js'></script>
 <script src='/static/registration-login-logout.js'></script>
 
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+        {% for message in messages %}
+            {{ message }}
+
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+
+
 {% block content %}
 Placeholder content
 {% endblock %}

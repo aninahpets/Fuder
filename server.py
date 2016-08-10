@@ -1,8 +1,9 @@
 import os
+import pdb
 from flask import Flask, render_template, redirect, request, flash, session
 from flask_sqlalchemy import SQLAlchemy
 from model import User, Venue, Visit, connect_to_db, db
-from random import randint
+from random import randrange
 from yelp.client import Client
 from yelp.oauth1_authenticator import Oauth1Authenticator
 
@@ -99,7 +100,7 @@ def search_yelp():
     
     # retrieve user's address and create dict with search params
     location = request.args.get('user-address')
-    params = {'category_filter': 'restaurants', 'limit': 20}
+    params = {'sort': 2, 'limit': 20, 'category_filter': 'restaurants'}
 
     # constucting a client (instance of Oauth1Authenticator)
     client = Client(yelp_auth)
@@ -108,27 +109,25 @@ def search_yelp():
     result = client.search(location, **params)
 
     # selecting the business to which we will send the user
-    # optionsnumber = randint(1,20)
-    optionsnumber = 1
+    optionsnumber = randrange(len(result.businesses))
+
     destination = {'name': result.businesses[optionsnumber].name,
-        'address': result.businesses[optionsnumber].location.display_address,
         'id': result.businesses[optionsnumber].id,
         'latitude': result.businesses[optionsnumber].location.coordinate.latitude,
         'longitude': result.businesses[optionsnumber].location.coordinate.longitude}
 
     # checks to see if the venue exists in the database and creates a visit record
-    try:
-        matches = db.session.query(Venue).filter_by(id=destination['id']).one()
+    match = db.session.query(Venue).filter_by(venue_id=destination['id']).first()
+
+    if match:
         new_visit = Visit(user_id=session['user_id'],
                             venue_id=destination['id'])
         db.session.add(new_visit)
         db.session.commit()
-   
-    except: #put error here: sqlalchemy.orm.exc.NoResultFound: No row was found for one()
+
+    else:
         new_venue = Venue(venue_id=destination['id'],
                             name=destination['name'],
-                            # address=destination['location.address'],
-                            # coordinates=destination['location.coordinate'],
                             latitude=destination['latitude'],
                             longitude=destination['longitude'])
         db.session.add(new_venue)
@@ -139,8 +138,7 @@ def search_yelp():
         db.session.add(new_visit)
         db.session.commit()
 
-    print new_venue
-    return destination['name'], destination['address']
+    return redirect('/process_ride')
 
 
 @app.route('/process_ride')

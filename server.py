@@ -110,9 +110,15 @@ def history():
     """User view of their complete venue visit history"""
     # add user visit query here
 
-    visits = db.session.query(Visit).filter_by(User.user_id==session['user_id'].all())
-    pdb.set_trace()
-    return render_template('visit-history.html')
+    visit_data = db.session.query(Venue.name,
+        Visit.visited_at).filter(User.user_id==session['user_id']).all()
+    visits = []
+    for i in range(len(visit_data)):
+        visit = visit_data[i]
+        visit = "You visited %s on %s" % (visit[0],
+                                        visit[1].strftime('%B, %d, %Y'))
+        visits.append(visit)
+    return render_template('visit-history.html', visits=visits)
 
 
 

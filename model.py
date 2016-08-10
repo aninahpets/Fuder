@@ -38,7 +38,7 @@ class Visit(db.Model):
     venue_id = db.Column(db.String, db.ForeignKey('venues.venue_id'),
                         nullable=False)
     visited_at = db.Column(db.DateTime,
-                         default=datetime.utcnow())
+                         default=datetime.now())
 
     #Define relationship to user
     user = db.relationship('User',

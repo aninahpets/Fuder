@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}
+Your Visit History
+{% endblock %}
+
+
+{% block content %}
+<h3>Where have you been?</h3>
+<ul>
+{% for visit in visits %}
+    <li>{{ visit }}
+{% endfor %}
+</ul>
+
+{% endblock %}

@@ -4,6 +4,7 @@ from flask import Flask, render_template, redirect, request, flash, session
 from flask_sqlalchemy import SQLAlchemy
 from model import User, Venue, Visit, connect_to_db, db
 from yelp_backend import *
+from uber_backend import *
 
 app = Flask(__name__)
 app.secret_key = "secretkeysecret"
@@ -100,7 +101,8 @@ def get_destination():
 @app.route('/process_ride')
 def process_ride():
     """User view while Uber ride request is processing"""
-    # add Uber API call here
+    # add Google API geocoding call here
+    # add Uber API call here with start and end lat/lng from Google
 
     return render_template('processing.html')
 
@@ -109,16 +111,18 @@ def process_ride():
 def history():
     """User view of their complete venue visit history"""
     # add user visit query here
-
-    visit_data = db.session.query(Venue.name,
-        Visit.visited_at).filter(User.user_id==session['user_id']).all()
-    visits = []
-    for i in range(len(visit_data)):
-        visit = visit_data[i]
-        visit = "You visited %s on %s" % (visit[0],
-                                        visit[1].strftime('%B, %d, %Y'))
-        visits.append(visit)
-    return render_template('visit-history.html', visits=visits)
+    if 'user_id' in session:
+        visit_data = db.session.query(Venue.name,
+            Visit.visited_at).filter(User.user_id==session['user_id']).all()
+        visits = []
+        for i in range(len(visit_data)):
+            visit = visit_data[i]
+            visit = "You visited %s on %s" % (visit[0],
+                                            visit[1].strftime('%B, %d, %Y'))
+            visits.append(visit)
+        return render_template('visit-history.html', visits=visits)
+    else:
+        return render_template('login.html')
 
 
 

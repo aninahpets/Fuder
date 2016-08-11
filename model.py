@@ -20,9 +20,6 @@ class Venue(db.Model):
 
     venue_id = db.Column(db.String(75), primary_key=True)
     name = db.Column(db.String(75), nullable=False)
-    # address = db.Column(LIST, nullable=False)
-    # OR
-    # coordinates = db.Column(DICT, nullable = False)
     latitude = db.Column(db.Float(10,6), nullable=True)
     longitude = db.Column(db.Float(10,6), nullable=True)
 
@@ -38,7 +35,7 @@ class Visit(db.Model):
     venue_id = db.Column(db.String, db.ForeignKey('venues.venue_id'),
                         nullable=False)
     visited_at = db.Column(db.DateTime,
-                         default=datetime.now())
+                         default=datetime.utcnow())
 
     #Define relationship to user
     user = db.relationship('User',

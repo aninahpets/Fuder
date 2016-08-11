@@ -98,11 +98,15 @@ def logout():
 
 @app.route('/send_user_to_venue', methods=['POST'])
 def get_destination():
+
+    # fetch destination venue from yelp
     search_yelp()
-    # add Google API geocoding call here
+
+    # geocode the user's location input
     get_start_coordinates()
-    # add Uber API call here with start and end lat/lng from Google
-    request_ride('start_latitude', 'start_longitude', 'end_latitude', 'end_longitude')
+
+    # request an Uber on the user's behalf
+    # request_ride('start_latitude', 'start_longitude', 'end_latitude', 'end_longitude')
 
     return render_template('processing.html')
 
@@ -112,20 +116,11 @@ def history():
     """User view of their complete venue visit history"""
     # add user visit query here
     if 'user_id' in session:
-        visit_data = db.session.query(Venue.name,
+        visits = db.session.query(Venue.name,
             Visit.visited_at).filter(User.user_id==session['user_id']).all()
-        visit_count = db.session.query(func.count(Visit.visit_id)).filter(User.user_id==session['user_id']).all()
-        visits = []
-
-        # iterate over each record in visit_data
-        # TODO - visit_count is so ugly, please fix. Query returns [(9L)] for 9 records
-        for i in range(int(visit_count[0][0])):
-            print i
-            visit = visit_data[i]
-            visit = "You visited %s on %s" % (visit[0],
-                                            visit[1].strftime('%B, %d, %Y'))
-            visits.append(visit)
+ 
         return render_template('visit-history.html', visits=visits)
+
     else:
         return render_template('login.html')
 

@@ -1,6 +1,7 @@
 # TODO: Improve comments here
 
 import os
+import pdb
 from uber_rides.auth import AuthorizationCodeGrant
 from uber_rides.client import UberRidesClient
 from uber_rides.session import OAuth2Credential
@@ -8,9 +9,10 @@ from uber_rides.session import Session
 import googlemaps
 
 
-def get_start_coordinates():
+def get_start_coordinates(user_location):
+    user_location = request.args.get('user-address')
     gmaps = googlemaps.Client(key=os.environ['google_api_key'])
-    geocode_result = gmaps.geocode('660 vernon st oakland ca')
+    geocode_result = gmaps.geocode('%s' % user_location)
     coordinates = geocode_result[0]['geometry']['location']
     start_latitude = coordinates['lat']
     start_longitude = coordinates['lng']

@@ -5,24 +5,52 @@ from flask_sqlalchemy import SQLAlchemy
 from model import User, Venue, Visit, connect_to_db, db
 from random import randrange
 import requests
-# from yelp.client import Client
-# from yelp.oauth1_authenticator import Oauth1Authenticator
+from yelp.client import Client
+from yelp.oauth1_authenticator import Oauth1Authenticator
 
 def search_yelp():
 
-    resp = requests.post("https://api.yelp.com/oauth2/token",
-                         json={'grant_type': 'client_credentials',
-                               'client_id': os.environ['yelp_app_id'],
-                               'client_secret': os.environ['yelp_app_secret']}
-    pass
+    ############ NEW CODE #################
 
-    ############OLD CODE#################
+    # retrieve user's address and create dict with search params
+    location = request.args.get('user-address')
+
+    resp = requests.post("https://api.yelp.com/oauth2/token",
+                         data={'grant_type': 'client_credentials',
+                               'client_id': os.environ['yelp_app_id'],
+                               'client_secret': os.environ['yelp_app_secret']})
+
+    yelp_access_token = resp.json()['access_token']
+    print
+    print
+    print yelp_access_token
+
+    results = requests.get('https://api.yelp.com/v3/businesses/search?term=delis&latitude=37.786882&longitude=-122.399972',
+        headers={'Authorization': 'Bearer %s' % yelp_access_token})
+    # results = requests.get('https://api.yelp.com/v3/businesses/search',
+    #                     headers={'Authorization': 'Bearer %s' % yelp_access_token},
+    #                     data={'location': 'San Francisco'})
+
+
+#                             'sort_by': 'rating',
+#                             'location': location,
+#                             'categories': 'restaurants'
+                            # 'open_new_filter': True
+#                             })
+    print
+    print
+    print results
+
+
+
+
+    ############ OLD CODE #################
     # # using Python os.environ to access environment variables
-    # # yelp_auth = Oauth1Authenticator(
-    # #     consumer_key=os.environ['yelp_consumer_key'],
-    # #     consumer_secret=os.environ['yelp_consumer_secret'],
-    # #     token=os.environ['yelp_token'],
-    # #     token_secret=os.environ['yelp_token_secret'])
+    # yelp_auth = Oauth1Authenticator(
+    #     consumer_key=os.environ['yelp_consumer_key'],
+    #     consumer_secret=os.environ['yelp_consumer_secret'],
+    #     token=os.environ['yelp_token'],
+    #     token_secret=os.environ['yelp_token_secret'])
     
     # # retrieve user's address and create dict with search params
     # location = request.args.get('user-address')
@@ -68,3 +96,4 @@ def search_yelp():
     # end_longitude = destination['longitude']
 
     # return ('user-address', end_latitude, end_longitude)
+

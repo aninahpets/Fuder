@@ -14,7 +14,7 @@ app.secret_key = "secretkeysecret"
 def index():
     """Homepage"""
 
-    # checks to see if user logged in
+    # checks to see if user logged in; redirects to login if not
     if 'user_id' in session:
         return render_template('index.html')
     else:
@@ -29,13 +29,16 @@ def index():
 def login():
     """Provides user login form"""
 
+    # checks to see if user logged in; redirect to homepage if so
     if 'user_id' in session:
         return redirect('/')
     else:
         return render_template('login.html')
 
+
 @app.route('/login_submit', methods=['POST'])
 def submit_login():
+    # gets user email and pw from login form
     email = request.form.get('email')
     password = request.form.get('password')
 
@@ -78,11 +81,12 @@ def register():
     session['user_id'] = user.user_id
     return redirect('/')
 
-# TODO: actually direct to this route...
+
 @app.route('/logout')
 def logout():
     """Logs user out and removes session"""
 
+    # removes user session and confirms user logout
     del session['user_id']
     flash('You are now logged out.')
     return redirect('/login')

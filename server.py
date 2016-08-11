@@ -96,19 +96,25 @@ def logout():
 ################################################
 # App functionality routes
 
-@app.route('/send_user_to_venue', methods=['POST'])
+@app.route('/send_user_to_venue', methods=['GET', 'POST'])
 def get_destination():
 
     # fetch destination venue from yelp
-    search_yelp()
+    end = search_yelp()
 
     # geocode the user's location input
-    get_start_coordinates()
+    start = get_start_coordinates()
 
     # request an Uber on the user's behalf
-    # request_ride('start_latitude', 'start_longitude', 'end_latitude', 'end_longitude')
+    url = request_ride(start[0], start[1], end[0], end[1])
 
+    return render_template('processing.html', url=url)
+
+
+@app.route('/callback')
+def send_car():
     return render_template('processing.html')
+
 
 
 @app.route('/history')

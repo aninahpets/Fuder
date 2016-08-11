@@ -9,9 +9,7 @@ from yelp.client import Client
 from yelp.oauth1_authenticator import Oauth1Authenticator
 
 def search_yelp():
-
-    ############ NEW CODE #################
-
+    """Uses Yelp API v3 to fetch venue; creates venue and visit records"""
     # retrieve user's address and create dict with search params
     location = request.args.get('user-address')
 
@@ -21,79 +19,47 @@ def search_yelp():
                                'client_secret': os.environ['yelp_app_secret']})
 
     yelp_access_token = resp.json()['access_token']
-    print
-    print
-    print yelp_access_token
 
-    results = requests.get('https://api.yelp.com/v3/businesses/search?term=delis&latitude=37.786882&longitude=-122.399972',
+    results = requests.get('https://api.yelp.com/v3/businesses/search?location=%s&sort_by=rating&categories=restaurants&open_now_filter=True' % location,
         headers={'Authorization': 'Bearer %s' % yelp_access_token})
-    # results = requests.get('https://api.yelp.com/v3/businesses/search',
-    #                     headers={'Authorization': 'Bearer %s' % yelp_access_token},
-    #                     data={'location': 'San Francisco'})
 
-
-#                             'sort_by': 'rating',
-#                             'location': location,
-#                             'categories': 'restaurants'
-                            # 'open_new_filter': True
-#                             })
-    print
-    print
-    print results
-
-
-
-
-    ############ OLD CODE #################
-    # # using Python os.environ to access environment variables
-    # yelp_auth = Oauth1Authenticator(
-    #     consumer_key=os.environ['yelp_consumer_key'],
-    #     consumer_secret=os.environ['yelp_consumer_secret'],
-    #     token=os.environ['yelp_token'],
-    #     token_secret=os.environ['yelp_token_secret'])
+    results = results.json()
     
-    # # retrieve user's address and create dict with search params
-    # location = request.args.get('user-address')
-    # params = {'sort': 2, 'limit': 20, 'category_filter': 'restaurants'}
+    # selecting the business to which we will send the user
+    optionsnumber = randrange(len(results['businesses']))
 
-    # # constucting a client (instance of Oauth1Authenticator)
-    # client = Client(yelp_auth)
+    # extracting data from json
+    destination = {'name': results['businesses'][optionsnumber]['name'],
+        'id': results['businesses'][optionsnumber]['id'],
+        'latitude': results['businesses'][optionsnumber]['coordinates']['latitude'],
+        'longitude': results['businesses'][optionsnumber]['coordinates']['longitude']}
 
-    # # using client to call API
-    # result = client.search(location, **params)
+   # checks to see if the venue exists in the database and creates a visit record
+    match = db.session.query(Venue).filter_by(venue_id=destination['id']).first()
 
-    # # selecting the business to which we will send the user
-    # optionsnumber = randrange(len(result.businesses))
+    if match:
+        new_visit = Visit(user_id=session['user_id'],
+                            venue_id=destination['id'])
+        db.session.add(new_visit)
+        db.session.commit()
 
-    # destination = {'name': result.businesses[optionsnumber].name,
-    #     'id': result.businesses[optionsnumber].id,
-    #     'latitude': result.businesses[optionsnumber].location.coordinate.latitude,
-    #     'longitude': result.businesses[optionsnumber].location.coordinate.longitude}
+    else:
+        new_venue = Venue(venue_id=destination['id'],
+                            name=destination['name'],
+                            latitude=destination['latitude'],
+                            longitude=destination['longitude'])
+        db.session.add(new_venue)
+        db.session.commit()
 
-    # # checks to see if the venue exists in the database and creates a visit record
-    # match = db.session.query(Venue).filter_by(venue_id=destination['id']).first()
+        new_visit = Visit(user_id=session['user_id'],
+                            venue_id=destination['id'])
+        db.session.add(new_visit)
+        db.session.commit()
 
-    # if match:
-    #     new_visit = Visit(user_id=session['user_id'],
-    #                         venue_id=destination['id'])
-    #     db.session.add(new_visit)
-    #     db.session.commit()
+    end_latitude = destination['latitude']
+    end_longitude = destination['longitude']
 
-    # else:
-    #     new_venue = Venue(venue_id=destination['id'],
-    #                         name=destination['name'],
-    #                         latitude=destination['latitude'],
-    #                         longitude=destination['longitude'])
-    #     db.session.add(new_venue)
-    #     db.session.commit()
+    return ('user-address', end_latitude, end_longitude)
 
-    #     new_visit = Visit(user_id=session['user_id'],
-    #                         venue_id=destination['id'])
-    #     db.session.add(new_visit)
-    #     db.session.commit()
 
-    # end_latitude = destination['latitude']
-    # end_longitude = destination['longitude']
-
-    # return ('user-address', end_latitude, end_longitude)
-
+    

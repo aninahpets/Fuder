@@ -59,5 +59,5 @@ def search_yelp():
     end_latitude = destination['latitude']
     end_longitude = destination['longitude']
 
-    return (user_location, end_latitude, end_longitude)
+    return (end_latitude, end_longitude)
 

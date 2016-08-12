@@ -140,5 +140,5 @@ if __name__ == '__main__':
    
     # DebugToolbarExtension(app)
 
-    app.run(host='0.0.0.0')
-
+    # app.run(host='0.0.0.0')
+    app.run()

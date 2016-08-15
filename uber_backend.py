@@ -27,23 +27,23 @@ def request_ride(start_lat, start_lng, end_lat, end_lng):
         os.environ['uber_client_id'],
         ['request'],
         os.environ['uber_client_secret'],
-        'https://localhost:5000/callback',
+        'http://localhost:5000/callback',
         )
 
     uber_auth_url = uber_auth_flow.get_authorization_url()
     return uber_auth_url
     # send user to URL uber_auth_url to authorize app access
 
-    # session = uber_auth_flow.get_session('http://0.0.0.0:5000/callback')
-    # uber_client = UberRidesClient(session, sandbox_mode=True)
-    # credentials = session.oauth2credential
+    session = uber_auth_flow.get_session('http://0.0.0.0:5000/callback')
+    uber_client = UberRidesClient(session, sandbox_mode=True)
+    credentials = session.oauth2credential
 
-    # response = uber_client.request_ride(
-    #     start_latitude = start_lat,
-    #     start_longitude = start_lng,
-    #     end_latitude = end_lat,
-    #     end_longitude = end_lng
-    #     )
+    response = uber_client.request_ride(
+        start_latitude = start_lat,
+        start_longitude = start_lng,
+        end_latitude = end_lat,
+        end_longitude = end_lng
+        )
 
-    # ride_details = response.json
-    # ride_id = ride_details.get('request_id')
+    ride_details = response.json
+    ride_id = ride_details.get('request_id')

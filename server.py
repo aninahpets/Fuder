@@ -113,7 +113,7 @@ def get_destination():
 
 @app.route('/callback')
 def send_car():
-    return render_template('processing.html')
+    return render_template('index.html')
 
 
 

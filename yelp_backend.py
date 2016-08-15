@@ -10,8 +10,9 @@ from yelp.oauth1_authenticator import Oauth1Authenticator
 
 def search_yelp():
     """Uses Yelp API v3 to fetch venue; creates venue and visit records"""
-    # retrieve user's address and create dict with search params
-    user_location = request.args.get('user-address')
+    # retrieve user's address
+    user_location = request.form.get('user-address')
+    print user_location
 
     resp = requests.post("https://api.yelp.com/oauth2/token",
                          data={'grant_type': 'client_credentials',
@@ -33,6 +34,7 @@ def search_yelp():
         'id': results['businesses'][optionsnumber]['id'],
         'latitude': results['businesses'][optionsnumber]['coordinates']['latitude'],
         'longitude': results['businesses'][optionsnumber]['coordinates']['longitude']}
+
 
    # checks to see if the venue exists in the database and creates a visit record
     match = db.session.query(Venue).filter_by(venue_id=destination['id']).first()

@@ -10,6 +10,12 @@ from uber_backend import *
 app = Flask(__name__)
 app.secret_key = "secretkeysecret"
 
+uber_auth_flow = AuthorizationCodeGrant(
+    os.environ['uber_client_id'],
+    ['request'],
+    os.environ['uber_client_secret'],
+    'http://localhost:5000/callback',
+    )
 
 @app.route('/')
 def index():
@@ -96,23 +102,27 @@ def logout():
 ################################################
 # App functionality routes
 
-@app.route('/send_user_to_venue', methods=['GET', 'POST'])
-def get_destination():
+@app.route('/setup_for_departure', methods=['POST'])
+def get_user_authorization():
 
+    url = get_user_auth(uber_auth_flow)
+
+    return redirect(url)
+
+
+@app.route('/callback')
+def send_user_to_destination():
     # fetch destination venue from yelp
     end = search_yelp()
 
     # geocode the user's location input
     start = get_start_coordinates()
 
-    # request an Uber on the user's behalf
-    url = request_ride(start[0], start[1], end[0], end[1])
-
-    return render_template('processing.html', url=url)
+    code = request.args.get('code')
+    state = request.args.get('state')
 
 
-@app.route('/callback')
-def send_car():
+    request_ride(start[0], start[1], end[0], end[1], code, state, uber_auth_flow)
     return render_template('index.html')
 
 

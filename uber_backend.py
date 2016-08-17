@@ -23,7 +23,7 @@ def get_start_coordinates():
     coordinates = geocode_result[0]['geometry']['location']
     start_latitude = coordinates['lat']
     start_longitude = coordinates['lng']
- 
+
     return start_latitude, start_longitude
 
 
@@ -35,25 +35,20 @@ def get_user_auth(uber_auth_flow):
     return uber_auth_url
 
 
-def request_uber_ride(start_lat, start_lng, end_lat, end_lng, uber_auth_flow):
+def request_uber_ride(start_lat, start_lng, end_lat, end_lng, uber_auth_flow, code, state):
     """Send a ride request on behalf of a user."""
-
-    # Retrieve code and state from Uber's GET request to /callback route
-    code = request.args.get('code')
-    state = request.args.get('state')
 
     # Instantiate new session & client object and retrieve credentials
     uber_session = uber_auth_flow.get_session('http://0.0.0.0:5000/callback?code=%s&state=%s' % (code, state))
     uber_client = UberRidesClient(uber_session, sandbox_mode=True)
     credentials = uber_session.oauth2credential
 
-    pdb.set_trace()
 
     response = uber_client.request_ride(
-        start_latitude = start_lat,
-        start_longitude = start_lng,
-        end_latitude = end_lat,
-        end_longitude = end_lng
+        start_latitude=start_lat,
+        start_longitude=start_lng,
+        end_latitude=end_lat,
+        end_longitude=end_lng
         )
 
     ride_details = response.json

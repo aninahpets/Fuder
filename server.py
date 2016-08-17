@@ -102,7 +102,7 @@ def logout():
 ################################################
 # App functionality routes
 
-@app.route('/setup_for_departure', methods=['POST'])
+@app.route('/get_user_auth')
 def get_user_authorization():
 
     url = get_user_auth(uber_auth_flow)
@@ -118,7 +118,11 @@ def send_user_to_destination():
     # geocode the user's location input
     start = get_start_coordinates()
 
-    request_uber_ride(start[0], start[1], end[0], end[1], uber_auth_flow)
+    # Retrieve code and state from Uber's GET request to /callback route
+    code = request.args.get('code')
+    state = request.args.get('state')
+
+    request_uber_ride(start[0], start[1], end[0], end[1], uber_auth_flow, code, state)
     return render_template('index.html')
 
 

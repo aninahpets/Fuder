@@ -36,6 +36,10 @@ class Visit(db.Model):
                         nullable=False)
     visited_at = db.Column(db.DateTime,
                          default=datetime.utcnow())
+    start_lat = db.Column(db.Float, nullable=False)
+    start_lng = db.Column(db.Float, nullable=False)
+    end_lat = db.Column(db.Float, nullable=False)
+    end_lng = db.Column(db.Float, nullable=False)
 
     #Define relationship to user
     user = db.relationship('User',

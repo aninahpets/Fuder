@@ -17,6 +17,7 @@ uber_auth_flow = AuthorizationCodeGrant(
     'http://localhost:5000/callback',
     )
 
+
 @app.route('/')
 def index():
     """Homepage"""
@@ -41,6 +42,7 @@ def login():
         return redirect('/')
     else:
         return render_template('login.html')
+
 
 
 @app.route('/login_submit', methods=['POST'])
@@ -70,6 +72,7 @@ def submit_login():
         return redirect('/login')
 
 
+
 @app.route('/register', methods=['POST'])
 def register():
     # TODO: Add error handling for duplicate email
@@ -89,6 +92,7 @@ def register():
     return redirect('/')
 
 
+
 @app.route('/logout')
 def logout():
     """Logs user out and removes session"""
@@ -102,28 +106,35 @@ def logout():
 ################################################
 # App functionality routes
 
-@app.route('/get_user_auth')
+@app.route('/get_user_auth', methods=['POST'])
 def get_user_authorization():
+
+    # Retrieve user's location from text input
+    user_location = request.form.get('user-address')
+
+    # geocode the user's location input
+    start = get_start_coordinates(user_location)
+
+    # fetch destination venue from Yelp
+    search_yelp(start[0], start[1])
 
     url = get_user_auth(uber_auth_flow)
 
     return redirect(url)
 
 
+
 @app.route('/callback')
 def send_user_to_destination():
-    # fetch destination venue from yelp
-    end = search_yelp()
-
-    # geocode the user's location input
-    start = get_start_coordinates()
 
     # Retrieve code and state from Uber's GET request to /callback route
     code = request.args.get('code')
     state = request.args.get('state')
 
-    request_uber_ride(start[0], start[1], end[0], end[1], uber_auth_flow, code, state)
-    return render_template('index.html')
+    coordinates = db.session.query(Visit.start_lat, Visit.start_lng, Visit.end_lat, Visit.end_lng).filter_by(user_id=session['user_id']).first()
+
+    request_uber_ride(coordinates[0], coordinates[1], coordinates[2], coordinates[3], uber_auth_flow, code, state)
+    return render_template('waiting.html')
 
 
 

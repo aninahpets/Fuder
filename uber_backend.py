@@ -9,17 +9,14 @@ from uber_rides.session import OAuth2Credential
 from uber_rides.session import Session
 import googlemaps
 
-def get_start_coordinates():
+def get_start_coordinates(address):
     """Geocode and return user's current location."""
-
-    # Retrieve user's location from text input
-    user_location = request.form.get('user-address')
 
     # Instantiate new Client object gmaps
     gmaps = googlemaps.Client(key=os.environ['google_api_key'])
 
     # Use gmaps object to geocode user input
-    geocode_result = gmaps.geocode('%s' % user_location)
+    geocode_result = gmaps.geocode('%s' % address)
     coordinates = geocode_result[0]['geometry']['location']
     start_latitude = coordinates['lat']
     start_longitude = coordinates['lng']

@@ -8,11 +8,9 @@ import requests
 from yelp.client import Client
 from yelp.oauth1_authenticator import Oauth1Authenticator
 
-def search_yelp():
+def search_yelp(start_lat, start_lng):
     """Uses Yelp API v3 to fetch venue; creates venue and visit records"""
     # retrieve user's address
-    user_location = request.form.get('user-address')
-    print user_location
 
     resp = requests.post("https://api.yelp.com/oauth2/token",
                          data={'grant_type': 'client_credentials',
@@ -21,7 +19,7 @@ def search_yelp():
 
     yelp_access_token = resp.json()['access_token']
 
-    results = requests.get('https://api.yelp.com/v3/businesses/search?location=%s&sort_by=rating&categories=restaurants&open_now_filter=True' % user_location,
+    results = requests.get('https://api.yelp.com/v3/businesses/search?latitude=%s&longitude=%s&sort_by=rating&categories=restaurants&open_now_filter=True' % (start_lat, start_lng),
         headers={'Authorization': 'Bearer %s' % yelp_access_token})
 
     results = results.json()
@@ -41,7 +39,11 @@ def search_yelp():
 
     if match:
         new_visit = Visit(user_id=session['user_id'],
-                            venue_id=destination['id'])
+                            venue_id=destination['id'],
+                            start_lat=start_lat,
+                            start_lng=start_lng,
+                            end_lat=destination['latitude'],
+                            end_lng=destination['longitude'])
         db.session.add(new_visit)
         db.session.commit()
 
@@ -54,7 +56,11 @@ def search_yelp():
         db.session.commit()
 
         new_visit = Visit(user_id=session['user_id'],
-                            venue_id=destination['id'])
+                            venue_id=destination['id'],
+                            start_lat=start_lat,
+                            start_lng=start_lng,
+                            end_lat=destination['latitude'],
+                            end_lng=destination['longitude'])
         db.session.add(new_visit)
         db.session.commit()
 

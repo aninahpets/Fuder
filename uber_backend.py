@@ -10,8 +10,15 @@ from uber_rides.session import Session
 import googlemaps
 
 def get_start_coordinates():
+    """Geocode and return user's current location."""
+
+    # Retrieve user's location from text input
     user_location = request.form.get('user-address')
+
+    # Instantiate new Client object gmaps
     gmaps = googlemaps.Client(key=os.environ['google_api_key'])
+
+    # Use gmaps object to geocode user input
     geocode_result = gmaps.geocode('%s' % user_location)
     coordinates = geocode_result[0]['geometry']['location']
     start_latitude = coordinates['lat']
@@ -21,18 +28,26 @@ def get_start_coordinates():
 
 
 def get_user_auth(uber_auth_flow):
-
-    # send user to URL uber_auth_url to authorize app access
+    """Send user to URL uber_auth_url to authorize app access."""
+    
     uber_auth_url = uber_auth_flow.get_authorization_url()
 
     return uber_auth_url
 
 
-def request_ride(start_lat, start_lng, end_lat, end_lng, code, state, uber_auth_flow):
+def request_uber_ride(start_lat, start_lng, end_lat, end_lng, uber_auth_flow):
+    """Send a ride request on behalf of a user."""
 
+    # Retrieve code and state from Uber's GET request to /callback route
+    code = request.args.get('code')
+    state = request.args.get('state')
+
+    # Instantiate new session & client object and retrieve credentials
     uber_session = uber_auth_flow.get_session('http://0.0.0.0:5000/callback?code=%s&state=%s' % (code, state))
     uber_client = UberRidesClient(uber_session, sandbox_mode=True)
     credentials = uber_session.oauth2credential
+
+    pdb.set_trace()
 
     response = uber_client.request_ride(
         start_latitude = start_lat,
@@ -41,5 +56,5 @@ def request_ride(start_lat, start_lng, end_lat, end_lng, code, state, uber_auth_
         end_longitude = end_lng
         )
 
-    # ride_details = response.json
-    # ride_id = ride_details.get('request_id')
+    ride_details = response.json
+    ride_id = ride_details.get('request_id')

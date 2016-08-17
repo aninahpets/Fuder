@@ -118,11 +118,7 @@ def send_user_to_destination():
     # geocode the user's location input
     start = get_start_coordinates()
 
-    code = request.args.get('code')
-    state = request.args.get('state')
-
-
-    request_ride(start[0], start[1], end[0], end[1], code, state, uber_auth_flow)
+    request_uber_ride(start[0], start[1], end[0], end[1], uber_auth_flow)
     return render_template('index.html')
 
 

@@ -11,11 +11,11 @@ class NotLoggedInTests(unittest.TestCase):
         app.config['TESTING'] = True
         self.client = app.test_client()
 
-    def test_registration_page(self):
+    def test_user_without_session_redirects_homepage_to_login(self):
         result = self.client.get('/', follow_redirects=True)
         self.assertIn('registered?', result.data)
 
-    def test_user_without_session_redirect_homepage_to_login(self):
+    def test_user_without_session_does_not_provide_homepage(self):
         result = self.client.get('/', follow_redirects=True)
         self.assertNotIn('Where are you?', result.data)
 
@@ -68,14 +68,14 @@ class SeleniumTests(unittest.TestCase):
         self.browser.get('http://localhost:5000/login')
         self.assertEqual(self.browser.title, 'Login')
 
-    def test_homepage_title(self):
-        self.browser.get('http://localhost:5000')
-        self.assertEqual(self.browser.title, 'Homepage')
+    # def test_homepage_title(self):
+    #     self.browser.get('http://localhost:5000')
+    #     self.assertEqual(self.browser.title, 'Homepage')
 
 
 def _mock_get_start_coordinates(address):
     latitude = 37.8044
-    longitude = 122.2711
+    longitude = -122.2711
     return latitude, longitude
 
 import server

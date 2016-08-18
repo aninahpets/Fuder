@@ -50,16 +50,25 @@ class Visit(db.Model):
                             backref=db.backref('visits', order_by=visit_id))
 
 
-
 #############################################################
 # Helper functions
-def connect_to_db(app):
+def connect_to_db(app, db_uri="postgresql:///project"):
     """Connect the database to the Flask app."""
 
     app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///project'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     db.app = app
     db.init_app(app)
+
+
+def example_data():
+    Annie = User(user_id=1, email='annie@test.com', password='abc123')
+    Analog = Venue(venue_id='analog-oakland', name='Analog', latitude=37.804, longitude=-122.27)
+    visit_1 = Visit(visit_id=1, user_id=1, venue_id='analog-oakland', start_lat=37.7929816, start_lng=-122.4041434, end_lat=37.8040172, end_lng=-122.2703549)
+
+    db.session.add_all([Annie, Analog, visit_1])
+    db.session.commit()
+
 
 if __name__ == "__main__":
     # If this file is run interactively, you will be able to interact directly

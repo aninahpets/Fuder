@@ -63,8 +63,8 @@ def connect_to_db(app, db_uri="postgresql:///project"):
 
 def example_data():
     Annie = User(user_id=1, email='annie@test.com', password='abc123')
-    Analog = Venue(venue_id='analog-oakland', name='Analog', latitude=37.804, longitude=-122.27)
-    visit_1 = Visit(visit_id=1, user_id=1, venue_id='analog-oakland', start_lat=37.7929816, start_lng=-122.4041434, end_lat=37.8040172, end_lng=-122.2703549)
+    Analog = Venue(venue_id='analog-oakland', name='Analog', latitude=37.8040172, longitude=-122.2703549)
+    visit_1 = Visit(user_id=1, venue_id='analog-oakland', start_lat=37.7929816, start_lng=-122.4041434, end_lat=37.8040172, end_lng=-122.2703549)
 
     db.session.add_all([Annie, Analog, visit_1])
     db.session.commit()

@@ -1,11 +1,11 @@
 $(document).ready(function () {
 
-
-// $('#button-logout').click(function() {
-//         alert('This is a test');
-//     }
-// );
+$('#uber-auth-button').click(function() {
+        alert('Authorizing through Uber...');
+    }
+);
 
 
 }
 )
+

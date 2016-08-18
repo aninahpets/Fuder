@@ -1,19 +1,20 @@
 {% extends 'base.html' %}
 
 {% block title %}
-RR Homepage
+Homepage
 {% endblock %}
 
 {% block content %}
 
-<h4>Where are you?</h4>
-<form action='/callback' method='POST'>
+<h4>Are you ready to go out?</h4>
+<form action='/get_user_auth' method='POST'>
     <label>Current Address: <input type='text' name='user-address' id='field-user-address'></label>
-    <input type='submit' value='I want to go out'>
+    <input type='submit' value='Yes, take me out!' id='uber-auth-button'>
 </form>
 <br>
 <br>
 <br>
+
 <a href='/logout'>
     <button type='button' name='logout' id='button-logout'>Log Out</button>
 </a>

@@ -1,5 +1,6 @@
 import os
 import pdb
+import bcrypt
 from flask import Flask, render_template, redirect, request, flash, session
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import func, desc
@@ -63,7 +64,8 @@ def submit_login():
         del session['user_id']
 
     # checks for password match and creates new session if successful
-    if user.password == password:
+    if bcrypt.checkpw(password, user.password):
+    # if user.password == password:
         session['user_id'] = user.user_id
         return redirect('/')
 
@@ -80,6 +82,9 @@ def register():
     # TODO: Form validation
     email = request.form.get('email')
     password = request.form.get('password')
+
+    # hash and salt user pw
+    password = bcrypt.hashpw(password, bcrypt.gensalt())
 
     # create new user record and add to database
     new_user = User(email=email, password=password)

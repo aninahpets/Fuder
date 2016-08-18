@@ -9,7 +9,7 @@ Your Visit History
 <h3>Where have you been?</h3>
 <ul>
 {% for visit in visits %}
-    <li>You visited {{ visit[0] }} on {{ visit[1].strftime('%B, %d, %Y') }}
+    <li>You visited {{ visit.venue.name }} on {{ visit.visited_at.strftime('%B, %d, %Y') }}
 {% endfor %}
 </ul>
 

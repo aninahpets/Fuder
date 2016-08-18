@@ -1,10 +1,26 @@
-{% extends 'base.html' %}
+<!doctype html>
+<html>
+<head>
+    <title>Login</title>
+    <link href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css' rel='stylesheet'>
+</head>
+<body>
 
-{% block title %}
-Login
-{% endblock %}
+<script src='https://code.jquery.com/jquery.js'></script>
+<script src='/static/registration-login-logout.js'></script>
+<link rel='stylesheet' href='./style.css'>
 
-{% block content %}
+
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+        {% for message in messages %}
+            {{ message }}
+
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+
+
 <h4>Already registered? Log in here:</h4>
 <form action='/login_submit' method='POST'>
     <label>Email: <input type='text' name='email' id='field-email'></label>
@@ -19,4 +35,5 @@ Login
     <label>Password: <input type='password' name='password' id='field-new-password'></label>
     <input type='submit' name='register-button' id='field-register-button' value='Register'></form>
 
-{% endblock %}
+</body>
+</html>

@@ -8,6 +8,15 @@
 
 <script src='https://code.jquery.com/jquery.js'></script>
 <script src='/static/registration-login-logout.js'></script>
+<link rel='stylesheet' href='./style.css'
+
+<nav class='navbar navbar-default navbar-fixed-top'>
+    <div class='container-fluid'>
+        <a href='/'>Home</a>
+        <a href='/history'>View Visit History</a>
+        <a href='/logout'>Log Out</a>
+    </div>
+</nav>
 
 {% with messages = get_flashed_messages() %}
     {% if messages %}

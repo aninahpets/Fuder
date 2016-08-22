@@ -3,3 +3,4 @@ env/
 secrets.sh
 .DS_Store
 .coverage
+htmlcov/

@@ -9,7 +9,14 @@ Homepage
 <h4>Are you ready to go out?</h4>
 <form action='/get_user_auth' method='POST'>
     <label>Current Address: <input type='text' name='user-address' id='field-user-address'></label>
-    <input type='submit' value='Yes, take me out!' id='uber-auth-button'>
+    <h5>What do you want to do?</h5>
+    <label><input type='radio' name='venue-type' id='field-venue-type' value=
+        'restaurants'>Eat</label>
+        <br>
+    <label><input type='radio' name='venue-type' id='field-venue-type' value=
+        'bars'>Drink</label>
+        <br>
+    <input type='submit' value='Take me out!' id='uber-auth-button'>
 </form>
 <br>
 <br>

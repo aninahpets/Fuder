@@ -54,7 +54,7 @@ def request_uber_ride(start_lat, start_lng, end_lat, end_lng, uber_auth_flow, co
     ride_id = ride_details.get('request_id')
 
 
-def search_yelp(start_lat, start_lng):
+def search_yelp(start_lat, start_lng, venue_type):
     """
     Use Yelp API v3 to fetch a venue; create venue and visit records in
     database.
@@ -71,7 +71,7 @@ def search_yelp(start_lat, start_lng):
 
     # make a request to Yelp's API with the returned access token using the 
     # start coordinates as search params
-    results = requests.get('https://api.yelp.com/v3/businesses/search?latitude=%s&longitude=%s&sort_by=rating&categories=restaurants&open_now_filter=True' % (start_lat, start_lng),
+    results = requests.get('https://api.yelp.com/v3/businesses/search?latitude=%s&longitude=%s&sort_by=rating&categories=%s&open_now_filter=True' % (start_lat, start_lng, venue_type),
         headers={'Authorization': 'Bearer %s' % yelp_access_token})
 
     results = results.json()
@@ -84,6 +84,10 @@ def search_yelp(start_lat, start_lng):
         'id': results['businesses'][optionsnumber]['id'],
         'latitude': results['businesses'][optionsnumber]['coordinates']['latitude'],
         'longitude': results['businesses'][optionsnumber]['coordinates']['longitude']}
+
+    print
+    print destination
+    print
 
 
     # check to see if the venue exists in the database (create a venue record

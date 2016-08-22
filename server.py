@@ -117,11 +117,12 @@ def get_user_authorization():
     """
     # retrieve user's location from text input and return as start coordinates
     user_location = request.form.get('user-address')
+    venue_type = request.form.get('venue-type')
     start = get_start_coordinates(user_location)
 
     # fetch destination venue from Yelp using start coordinates
     # create a visit record in the database with start/end coordinates
-    search_yelp(start[0], start[1])
+    search_yelp(start[0], start[1], venue_type)
 
     # call get_user_auth, passing in uber_auth_flow object and redirect to
     # custom auth URL provided by Uber

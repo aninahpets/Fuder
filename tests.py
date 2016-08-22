@@ -56,17 +56,17 @@ class LoggedInTests(unittest.TestCase):
         self.assertIn('Where', result.data)
 
 
-class SeleniumTests(unittest.TestCase):
+# class SeleniumTests(unittest.TestCase):
 
-    def setUp(self):
-        self.browser = webdriver.Firefox()
+#     def setUp(self):
+#         self.browser = webdriver.Firefox()
 
-    def tearDown(self):
-        self.browser.quit()
+#     def tearDown(self):
+#         self.browser.quit()
 
-    def test_login_title(self):
-        self.browser.get('http://localhost:5000/login')
-        self.assertEqual(self.browser.title, 'Login')
+#     def test_login_title(self):
+#         self.browser.get('http://localhost:5000/login')
+#         self.assertEqual(self.browser.title, 'Login')
 
     # def test_homepage_title(self):
     #     self.browser.get('http://localhost:5000')

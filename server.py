@@ -152,11 +152,20 @@ def send_user_to_destination():
 
 @app.route('/get_options.json')
 def provide_options():
-    bar_options = {'Cocktail Bar': 'cocktailbars', 'Dive Bar': 'divebars',
+    ven_type = request.args.get('venue-type')
+    if ven_type == 'bar':
+        options = {'Cocktail Bar': 'cocktailbars', 'Dive Bar': 'divebars',
                 'Gay Bar': 'gaybars', 'Pub': 'pubs', 'Sports Bar': 'sportsbars',
                 'Tiki Bar': 'tikibars', 'Wine Bar': 'wine_bars'}
-    restaurant_options = {}
-    return jsonify(bar_options)
+    else:
+        options = {'African': 'african', 'American': 'tradamerican', 'Barbeque':
+         'bbq', 'Bistro': 'bistros', 'Burgers': 'burgers', 'Cajun': 'cajun', 
+         'Chinese': 'chinese', 'Cuban': 'cuban', 'Diner': 'diners', 'Ethiopian':
+          'ethiopian', 'French': 'french', 'German': 'german', 'Greek': 'greek',
+           'Indian': 'indian', 'Italian': 'italian', 'Japanese': 'japanese', 
+           'Korean': 'korean', 'Mexican': 'mexican', 'Pizza': 'pizza',
+           'Tapas': 'tapasmallplates', 'Thai': 'thai', 'Vegan': 'vegan'}
+    return jsonify(options)
 
 
 @app.route('/history')

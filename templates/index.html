@@ -8,15 +8,15 @@ Homepage
 
 <form action='/get_user_auth' method='POST'>
     <label><h5>What do you want to do?</h5>
-    <button type='button' class='btn btn-outline-secondary' id='restaurant-button'>
+    <button type='button' class='btn btn-outline-secondary venue-option-btn' id='restaurant-button' data-venue-type='restaurant'>
         Eat
     </button>
-    <button type='button' class='btn btn-outline-secondary' id='bar-button'>
+    <button type='button' class='btn btn-outline-secondary venue-option-btn' id='bar-button' data-venue-type='bar'>
         Drink
     </button>
     <p>What are you in the mood for?</p>
     <select name='venue-options' id='venue-options'>
-        <option value='surprise'>Surprise me!
+        <option value='surprise'>Surprise me!</option>
     </select>
     <br>
     <br>

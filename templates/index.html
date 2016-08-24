@@ -6,16 +6,29 @@ Homepage
 
 {% block content %}
 
-<h4>Are you ready to go out?</h4>
 <form action='/get_user_auth' method='POST'>
-    <label>Current Address: <input type='text' name='user-address' id='field-user-address'></label>
-    <h5>What do you want to do?</h5>
-    <label><input type='radio' name='venue-type' id='field-venue-type' value=
-        'restaurants'>Eat</label>
-        <br>
-    <label><input type='radio' name='venue-type' id='field-venue-type' value=
-        'bars'>Drink</label>
-        <br>
+    <label><h5>What do you want to do?</h5>
+    <button type='button' class='btn btn-outline-secondary' id='restaurant-button'>
+        Eat
+    </button>
+    <button type='button' class='btn btn-outline-secondary' id='bar-button'>
+        Drink
+    </button>
+    <p>What are you in the mood for?</p>
+    <select name='venue-options' id='venue-options'>
+        <option value='surprise'>Surprise me!
+    </select>
+    <br>
+    <br>
+    <p>How spendy are you feeling?</p>
+    <input type='checkbox' name='price' value='1'>$
+    <input type='checkbox' name='price' value='2'>$$ 
+    <input type='checkbox' name='price' value='3'>$$$ 
+    <input type='checkbox' name='price' value='4'>$$$$ 
+    <br>
+    <label>Current Address: <input type='text' name='user-address' id='field-user-address' required>
+    </label>
+            <br>
     <input type='submit' value='Take me out!' id='uber-auth-button'>
 </form>
 <br>

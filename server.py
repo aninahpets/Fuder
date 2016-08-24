@@ -2,7 +2,7 @@ import os
 import pdb
 import bcrypt
 import json
-from flask import Flask, render_template, redirect, request, flash, session
+from flask import Flask, render_template, redirect, request, flash, session, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import func, desc
 from model import User, Venue, Visit, connect_to_db, db
@@ -117,12 +117,13 @@ def get_user_authorization():
     """
     # retrieve user's location from text input and return as start coordinates
     user_location = request.form.get('user-address')
-    venue_type = request.form.get('venue-type')
+    price = request.form.getlist('price')
+    category = request.form.get('category')
     start = get_start_coordinates(user_location)
 
     # fetch destination venue from Yelp using start coordinates
     # create a visit record in the database with start/end coordinates
-    search_yelp(start[0], start[1], venue_type)
+    search_yelp(start[0], start[1])
 
     # call get_user_auth, passing in uber_auth_flow object and redirect to
     # custom auth URL provided by Uber
@@ -147,6 +148,15 @@ def send_user_to_destination():
     # request a ride on behalf of the user
     request_uber_ride(coordinates[0], coordinates[1], coordinates[2], coordinates[3], uber_auth_flow, code, state)
     return render_template('waiting.html')
+
+
+@app.route('/get_options.json')
+def provide_options():
+    bar_options = {'Cocktail Bar': 'cocktailbars', 'Dive Bar': 'divebars',
+                'Gay Bar': 'gaybars', 'Pub': 'pubs', 'Sports Bar': 'sportsbars',
+                'Tiki Bar': 'tikibars', 'Wine Bar': 'wine_bars'}
+    restaurant_options = {}
+    return jsonify(bar_options)
 
 
 @app.route('/history')

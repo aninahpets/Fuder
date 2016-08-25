@@ -130,7 +130,13 @@ def get_user_authorization():
 
     # fetch destination venue from Yelp using start coordinates
     # create a visit record in the database with start/end coordinates
-    search_yelp(start[0], start[1], category, price)
+    results = search_yelp(start[0], start[1], category, price)
+    # redirect user if Yelp didn't return any results matching their request
+    if not results['businesses']:
+        flash("Uh-oh, we couldn't find anywhere to take you. Please try narrowing your search a little!")
+        return redirect('/')
+    else:
+        process_yelp_results(results, start[0], start[1])
 
     # call get_user_auth, passing in uber_auth_flow object and redirect to
     # custom auth URL provided by Uber
@@ -154,7 +160,8 @@ def send_user_to_destination():
 
     # request a ride on behalf of the user
     request_uber_ride(coordinates[0], coordinates[1], coordinates[2], coordinates[3], uber_auth_flow, code, state)
-    return render_template('waiting.html')
+    flash('Your Uber is on the way!')
+    return redirect('/')
 
 
 @app.route('/get_options.json')
@@ -175,26 +182,21 @@ def provide_options():
     return jsonify(options)
 
 
-@app.route('/history')
+@app.route('/get_history.json')
 def history():
     """Provides the user with a complete view of their visit history."""
 
-    if 'user_id' in session:
-        # ask in advance for all visit/venue data and add to list of 
-        # visits when there is a user match
-        visits = []
-        raw_visits = Visit.query.options(db.joinedload('venue')).all()
-        for visit in raw_visits:
-            if visit.user_id==session['user_id']:
-                visits.append(visit)
-        # pass list of visits to Jinja
-        return render_template('visit-history.html', visits=visits)
-
-    else:
-        return render_template('login.html')
+    # ask in advance for all visit/venue data and add to list of 
+    # visits when there is a user match
+    visits = {}
+    raw_visits = Visit.query.options(db.joinedload('venue')).all()
+    for visit in raw_visits:
+        if visit.user_id==session['user_id']:
+            visits[visit.venue.name] = visit.visited_at.strftime('%B %d, %Y')
+    return jsonify(visits)
 
 
-if __name__ == '__main__':
+if __name__ == '__main__': # pragma: no cover
    
     app.debug = True
    

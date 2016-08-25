@@ -75,7 +75,10 @@ def search_yelp(start_lat, start_lng, category, price):
         headers={'Authorization': 'Bearer %s' % yelp_access_token})
 
     results = results.json()
+
+    return results
     
+def process_yelp_results(results, start_lat, start_lng):
     # select the business to which we will send the user at random
     optionsnumber = randrange(len(results['businesses']))
 
@@ -84,10 +87,6 @@ def search_yelp(start_lat, start_lng, category, price):
         'id': results['businesses'][optionsnumber]['id'],
         'latitude': results['businesses'][optionsnumber]['coordinates']['latitude'],
         'longitude': results['businesses'][optionsnumber]['coordinates']['longitude']}
-
-    print
-    print destination
-    print
 
 
     # check to see if the venue exists in the database (create a venue record

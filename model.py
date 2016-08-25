@@ -55,7 +55,7 @@ class Visit(db.Model):
 def connect_to_db(app, db_uri="postgresql:///project"):
     """Connect the database to the Flask app."""
 
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql:///project'
+    app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     db.app = app
     db.init_app(app)

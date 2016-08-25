@@ -1,4 +1,5 @@
 import unittest
+import pdb
 from selenium import webdriver
 
 from server import app
@@ -17,7 +18,7 @@ class NotLoggedInTests(unittest.TestCase):
 
     def test_user_without_session_does_not_provide_homepage(self):
         result = self.client.get('/', follow_redirects=True)
-        self.assertNotIn('Where are you?', result.data)
+        self.assertNotIn('want to do?', result.data)
 
     def test_user_without_session_no_logout_option(self):
         result = self.client.get('/', follow_redirects=True)
@@ -43,34 +44,61 @@ class LoggedInTests(unittest.TestCase):
         db.session.close()
         db.drop_all()
 
-    def test_not_registered_yet(self):
+    def test_registered_homepage(self):
+        result = self.client.get('/', follow_redirects=True)
+        self.assertIn('want to do', result.data)
+        
+    def test_registered_not_redirected_to_login(self):
         result = self.client.get('/', follow_redirects=True)
         self.assertNotIn('registered?', result.data)
 
-    def test_registered(self):
-        result = self.client.get('/', follow_redirects=True)
-        self.assertIn('ready', result.data)
-
-    def test_visit_history(self):
-        result = self.client.get('/history')
-        self.assertIn('Where', result.data)
+    def test_registered_redirected_to_homepage(self):
+        result = self.client.get('/login', follow_redirects=True)
+        self.assertIn('want to do', result.data)
 
 
-# class SeleniumTests(unittest.TestCase):
+class SeleniumTests(unittest.TestCase):
 
-#     def setUp(self):
-#         self.browser = webdriver.Firefox()
+    def setUp(self):
+        self.browser = webdriver.Firefox()
+        self.browser.implicitly_wait(10)
 
-#     def tearDown(self):
-#         self.browser.quit()
+    def tearDown(self):
+        self.browser.quit()
 
-#     def test_login_title(self):
-#         self.browser.get('http://localhost:5000/login')
-#         self.assertEqual(self.browser.title, 'Login')
+    def test_login_title(self):
+        self.browser.get('http://localhost:5000/login')
+        self.assertEqual(self.browser.title, 'Login')
 
-    # def test_homepage_title(self):
-    #     self.browser.get('http://localhost:5000')
-    #     self.assertEqual(self.browser.title, 'Homepage')
+    def test_user_flow_and_submission(self):
+        self.browser.get('http://localhost:5000/')
+
+        user = self.browser.find_element_by_id('field-email')
+        user.send_keys('test@test.com')
+
+        pw = self.browser.find_element_by_id('field-password')
+        pw.send_keys('password')
+
+        login_btn = self.browser.find_element_by_id('field-login-button')
+        login_btn.click()
+
+        result = self.assertEqual(self.browser.title, 'Fuder')
+
+        eat_btn = self.browser.find_element_by_id('restaurant-button')
+        eat_btn.click()
+        
+        select = self.browser.find_element_by_id('venue-options')
+        for option in select.find_elements_by_tag_name('option'):
+            if option.text == 'Surprise Me!':
+                option.click()
+
+        address = self.browser.find_element_by_id('field-user-address')
+        address.send_keys('123 Main St, San Francisco, CA 94105')
+
+        submit_btn = self.browser.find_element_by_id('uber-auth-button')
+        submit_btn.click()
+
+        assert 'Forgot Password' in self.browser.find_element_by_class_name('forgot-password').text
 
 
 def _mock_get_start_coordinates(address):
@@ -82,5 +110,5 @@ import server
 server.get_start_coordinates = _mock_get_start_coordinates
 
 
-if __name__ == "__main__":
+if __name__ == "__main__":  # pragma: no cover
     unittest.main()

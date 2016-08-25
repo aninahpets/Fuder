@@ -1,42 +1,93 @@
-{% extends 'base.html' %}
+<!doctype html>
+<html>
+<head>
+    <title>Fuder</title>
+    <script src='https://code.jquery.com/jquery.js'></script>
+    <link href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css' rel='stylesheet'>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-{% block title %}
-Homepage
-{% endblock %}
+<script src='/static/options.js'></script>
+<link rel='stylesheet' href='static/style.css'>
+</head>
+<body>
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+        {% for message in messages %}
+            {{ message }}
 
-{% block content %}
-
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+<div class='container'>
 <form action='/get_user_auth' method='POST'>
     <label><h5>What do you want to do?</h5>
-    <button type='button' class='btn btn-outline-secondary venue-option-btn' id='restaurant-button' data-venue-type='restaurant'>
+    <button type='button' class='btn btn-outline-secondary venue-option-btn' id='restaurant-button' data-venue-type='restaurant' data-toggle='modal' data-target='#optionsModal'>
         Eat
     </button>
-    <button type='button' class='btn btn-outline-secondary venue-option-btn' id='bar-button' data-venue-type='bar'>
+    <button type='button' class='btn btn-outline-secondary venue-option-btn' id='bar-button' data-venue-type='bar' data-toggle='modal' data-target='#optionsModal'>
         Drink
     </button>
-    <p>What are you in the mood for?</p>
-    <select name='venue-option' id='venue-options'>
-        <option value='surprise'>Surprise me!</option>
-    </select>
-    <br>
-    <br>
-    <p>How spendy are you feeling?</p>
-    <input type='checkbox' name='price' value='1'>$
-    <input type='checkbox' name='price' value='2'>$$ 
-    <input type='checkbox' name='price' value='3'>$$$ 
-    <input type='checkbox' name='price' value='4'>$$$$ 
-    <br>
-    <label>Current Address: <input type='text' name='user-address' id='field-user-address' required>
-    </label>
-            <br>
-    <input type='submit' value='Take me out!' id='uber-auth-button'>
+
+<div class='modal fade' id='optionsModal' role='dialog'>
+    <div class='modal-dialog'>
+
+        <div class='modal-content'>
+            <div class='modal-body'>
+                <p>What are you in the mood for?</p>
+                <select name='venue-option' id='venue-options'>
+                    <option value='surprise'>Surprise me!</option>
+                </select>
+                <br>
+                <br>
+                <p>How spendy are you feeling?</p>
+                <input type='checkbox' name='price' value='1'>$
+                <input type='checkbox' name='price' value='2'>$$ 
+                <input type='checkbox' name='price' value='3'>$$$ 
+                <input type='checkbox' name='price' value='4'>$$$$ 
+                <br>
+                <label>Where can we pick you up? <input type='text' name='user-address' id='field-user-address' required>
+                </label>
+                </div>
+                <div class='modal-footer'>
+                    <button type='button' class='btn btn-outline-secondary' data-dismiss='modal'>Start Over
+                    </button>
+                <input type='submit' class='btn btn-outline-secondary' value='Take me out!' id='uber-auth-button'>
+                </div>
+        </div>
+
+    </div>
+</div>
 </form>
+</div>
+
+
+<div class='container'>
+        <button type='button' class='btn btn-outline-secondary' id='history-button' data-toggle='modal' data-target='#historyModal'>
+        View Visit History
+    </button>
+<div class='modal fade' id='historyModal' role='dialog'>
+    <div class='modal-dialog'>
+
+        <div class='modal-content'>
+            <div class='modal-body'>
+                <ul id='history-list'>
+                </ul>
+            </div>
+                <div class='modal-footer'>
+                    <button type='button' class='btn btn-outline-secondary' data-dismiss='modal'>Close
+                    </button>
+                </div>
+        </div>
+    </div>
+</div>
+</div>
+
 <br>
 <br>
 <br>
 
 <a href='/logout'>
-    <button type='button' name='logout' id='button-logout'>Log Out</button>
+    <button type='button' class='btn btn-outline-secondary' name='logout' id='button-logout'>Log Out</button>
 </a>
-
-{% endblock %}
+</body>
+</html>

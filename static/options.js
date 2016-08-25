@@ -1,8 +1,9 @@
 $(document).ready(function () {
 
+// initialize the 'starting-point' dropdown for future use
+var initialDropdownState = $('#venue-options').html();
+
     function getOptions(evt) {
-        // initialize the 'blank' dropdown
-        var initialDropdownState = $('#venue-options').html();
         // set venueType to be the data value of the button clicked - 'bar' or 'restaurant'
         var venueType = $(this).data('venue-type');
         // make AJAX request using venueType to retrieve list of bar or restaurant options
@@ -25,6 +26,24 @@ $(document).ready(function () {
         });
     }
 
+// initialize the 'starting-point' list for future use
+    var initialVisitState = $('#history-list').html();
+
+    function getHistory(evt) {
+        // set list to initial 'blank slate' list to avoid duplicates
+        $('#history-list').html(initialVisitState);
+        // make AJAX request to retrieve user visit history
+        // create success handler to loop over returned JSON object
+        // add visits to list using html string
+        $.get('/get_history.json', function (visits) {
+            for (visit in visits) {
+                var userVisit = '<li>' + visit + " (" + visits[visit] + ")"
+                $('#history-list').append(userVisit);
+            }
+        });
+    }
+
     $('.venue-option-btn').click(getOptions);
+    $('#history-button').click(getHistory);
 
 });

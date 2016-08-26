@@ -156,11 +156,14 @@ def send_user_to_destination():
     state = request.args.get('state')
 
     # retrieve start and end coordinates from newly created visit record
-    coordinates = db.session.query(Visit.start_lat, Visit.start_lng, Visit.end_lat, Visit.end_lng).filter_by(user_id=session['user_id']).order_by('visited_at desc').first()
-
+    # coordinates = db.session.query(Visit.start_lat, Visit.start_lng, Visit.end_lat, Visit.end_lng, Visit.venues.city, Visit.venues.image).filter_by(user_id=session['user_id']).order_by('visited_at desc').first()
+    destination = Visit.query.filter(Visit.user_id==session['user_id']).order_by('visited_at desc').first()
+    coordinates = (destination.start_lat, destination.start_lng, destination.end_lat, destination.end_lng)
+    city = destination.venue.city
+    image = destination.venue.image
     # request a ride on behalf of the user
     request_uber_ride(coordinates[0], coordinates[1], coordinates[2], coordinates[3], uber_auth_flow, code, state)
-    flash('Your Uber is on the way!')
+    flash('Uber will be taking you to a mystery destination in %s!' % city)
     return redirect('/')
 
 
@@ -188,11 +191,14 @@ def history():
 
     # ask in advance for all visit/venue data and add to list of 
     # visits when there is a user match
-    visits = {}
-    raw_visits = Visit.query.options(db.joinedload('venue')).all()
+    visits = []
+    raw_visits = Visit.query.filter(Visit.user_id==session['user_id']).order_by(Visit.visited_at).all()
+    print
+    print raw_visits
+    print
     for visit in raw_visits:
-        if visit.user_id==session['user_id']:
-            visits[visit.venue.name] = visit.visited_at.strftime('%B %d, %Y')
+        visits.append('%s, %s on %s' % (visit.venue.name, visit.venue.city, visit.visited_at.strftime('%B %d, %Y')))
+
     return jsonify(visits)
 
 

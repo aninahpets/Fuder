@@ -86,7 +86,9 @@ def process_yelp_results(results, start_lat, start_lng):
     destination = {'name': results['businesses'][optionsnumber]['name'],
         'id': results['businesses'][optionsnumber]['id'],
         'latitude': results['businesses'][optionsnumber]['coordinates']['latitude'],
-        'longitude': results['businesses'][optionsnumber]['coordinates']['longitude']}
+        'longitude': results['businesses'][optionsnumber]['coordinates']['longitude'],
+        'city': results['businesses'][optionsnumber]['location']['city'],
+        'image': results['businesses'][optionsnumber]['image_url']}
 
 
     # check to see if the venue exists in the database (create a venue record
@@ -107,7 +109,9 @@ def process_yelp_results(results, start_lat, start_lng):
         new_venue = Venue(venue_id=destination['id'],
                             name=destination['name'],
                             latitude=destination['latitude'],
-                            longitude=destination['longitude'])
+                            longitude=destination['longitude'],
+                            city=destination['city'],
+                            image=destination['image'])
         db.session.add(new_venue)
         db.session.commit()
 

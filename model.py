@@ -22,6 +22,8 @@ class Venue(db.Model):
     name = db.Column(db.String(75), nullable=False)
     latitude = db.Column(db.Float(10,6), nullable=True)
     longitude = db.Column(db.Float(10,6), nullable=True)
+    city = db.Column(db.String(50), nullable=False)
+    image = db.Column(db.String(100), nullable=False)
 
 
 class Visit(db.Model):
@@ -63,7 +65,7 @@ def connect_to_db(app, db_uri="postgresql:///project"):
 
 def example_data():
     Annie = User(user_id=1, email='annie@test.com', password='abc123')
-    Analog = Venue(venue_id='analog-oakland', name='Analog', latitude=37.8040172, longitude=-122.2703549)
+    Analog = Venue(venue_id='analog-oakland', name='Analog', latitude=37.8040172, longitude=-122.2703549, city='Oakland', image='http://s3-media3.fl.yelpcdn.com/bphoto/NdTIPJGMzmxqpCdjXpeJcw/o.jpg')
     visit_1 = Visit(user_id=1, venue_id='analog-oakland', start_lat=37.7929816, start_lng=-122.4041434, end_lat=37.8040172, end_lng=-122.2703549)
 
     db.session.add_all([Annie, Analog, visit_1])

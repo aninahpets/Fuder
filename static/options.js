@@ -37,7 +37,7 @@ var initialDropdownState = $('#venue-options').html();
         // add visits to list using html string
         $.get('/get_history.json', function (visits) {
             for (visit in visits) {
-                var userVisit = '<li>' + visit + " (" + visits[visit] + ")"
+                var userVisit = '<li>' + visits[visit] + '</li>'
                 $('#history-list').append(userVisit);
             }
         });

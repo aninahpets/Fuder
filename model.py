@@ -36,6 +36,8 @@ class Visit(db.Model):
                         nullable=False)
     venue_id = db.Column(db.String, db.ForeignKey('venues.venue_id'),
                         nullable=False)
+    ride_id = db.Column(db.String)
+    uber_access_token = db.Column(db.String)
     visited_at = db.Column(db.DateTime,
                          default=datetime.utcnow())
     start_lat = db.Column(db.Float, nullable=False)

@@ -20,7 +20,6 @@ uber_auth_flow = AuthorizationCodeGrant(
     'http://localhost:5000/callback',
     )
 
-
 @app.route('/')
 def index():
     """Checks for user login and returns homepage or login template."""
@@ -32,6 +31,13 @@ def index():
         flash('Please log in.')
         return redirect('/login')
 
+@app.route('/status')
+def get_status():
+    if 'count' in session:
+        session['count'] = session['count'] + 1
+    else:
+        session['count'] = 0
+    return jsonify({'count': session['count']})
 
 ################################################
 # User management routes
@@ -121,9 +127,10 @@ def get_user_authorization():
     if price:
         price = ','.join(str(x) for x in price)
     else:
-        price = '1,2,3'
+        price = '1,2,3,4'
     category = request.form.get('venue-option')
     if category == 'surprise':
+        # TODO: FIX TO INCLUDE BARS IF BARS SELECTED
         category = 'restaurants'
 
     start = get_start_coordinates(user_location)
@@ -184,18 +191,22 @@ def provide_options():
            'Tapas': 'tapasmallplates', 'Thai': 'thai', 'Vegan': 'vegan'}
     return jsonify(options)
 
+@app.route('/waiting')
+def get_status():
+    # get_uber_status()
+    # jsonify uber status and return to AJAX, which will continue to poll
+    # return rendertemplate when ride is on way and give options to cancel/start over
+
 
 @app.route('/get_history.json')
 def history():
     """Provides the user with a complete view of their visit history."""
 
-    # ask in advance for all visit/venue data and add to list of 
-    # visits when there is a user match
+    # retrieve all visit/venue data for logged in user and add to list of 
+    get_uber_status()
     visits = []
     raw_visits = Visit.query.filter(Visit.user_id==session['user_id']).order_by(Visit.visited_at).all()
-    print
-    print raw_visits
-    print
+
     for visit in raw_visits:
         visits.append('%s, %s on %s' % (visit.venue.name, visit.venue.city, visit.visited_at.strftime('%B %d, %Y')))
 

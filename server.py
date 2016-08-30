@@ -171,7 +171,7 @@ def send_user_to_destination():
     # request a ride on behalf of the user
     request_uber_ride(coordinates[0], coordinates[1], coordinates[2], coordinates[3], uber_auth_flow, code, state)
     flash('Uber will be taking you to a mystery destination in %s!' % city)
-    return redirect('/')
+    return redirect('/waiting')
 
 
 @app.route('/get_options.json')
@@ -192,11 +192,17 @@ def provide_options():
     return jsonify(options)
 
 @app.route('/waiting')
-def get_status():
+def get_uber_ride_status():
     # get_uber_status()
     # jsonify uber status and return to AJAX, which will continue to poll
     # return rendertemplate when ride is on way and give options to cancel/start over
+    return render_template('waiting.html')
 
+@app.route('/get_image_url.json')
+def get_image_url():
+    query_result = Visit.query.filter(Visit.user_id==session['user_id']).order_by('visited_at desc').first()
+    image_url = query_result.venue.image
+    return jsonify(image_url)
 
 @app.route('/get_history.json')
 def history():

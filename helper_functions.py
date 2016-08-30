@@ -65,14 +65,21 @@ def request_uber_ride(start_lat, start_lng, end_lat, end_lng, uber_auth_flow, co
 
 def get_uber_status():
     """Retrieve logged in user's most recent ride request status"""
-    query = db.session.query(Visit.ride_id, Visit.uber_access_token).filter(Visit.user_id==session['user_id']).order_by('visited_at desc').first()
-    ride_id = query.ride_id
-    access_token = query.uber_access_token
+    query_result = db.session.query(Visit.ride_id, Visit.uber_access_token).filter(Visit.user_id==session['user_id']).order_by('visited_at desc').first()
+    ride_id = query_result.ride_id
+    access_token = query_result.uber_access_token
 
-    response = requests.get('https://api.uber.com/v1/requests/%s' % ride_id,
-        headers={
-            'Authorization': 'Bearer %s' % access_token
-        })
+    print 'in the put request', requests.put('https://api.uber.com/v1/sandbox/requests/%s' % ride_id, 
+        headers={'Authorization': 'Bearer %s' % access_token, 'Content-Type': 'application/json'},
+        json="{\"status\": \"accepted\"}")
+
+    response = requests.get('https://api.uber.com/v1/sandbox/requests/%s' % ride_id, 
+        headers={'Authorization': 'Bearer %s' % access_token})
+
+    # response = requests.get('https://api.uber.com/v1/requests/%s' % ride_id,
+    #     headers={
+    #         'Authorization': 'Bearer %s' % access_token
+    #     })
 
 def search_yelp(start_lat, start_lng, category, price):
     """Use Yelp API v3 to fetch a list of venues."""

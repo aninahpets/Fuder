@@ -1,0 +1,28 @@
+<!doctype html>
+<!-- TODO: Add Bootstrap theme https://www.bootstrapzero.com/bootstrap-template/stanley -->
+<html>
+    <head>
+        <title>Fuder</title>
+        <script src='https://code.jquery.com/jquery.js'></script>
+        <link href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css' rel='stylesheet'>
+        <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script src='http://spin.js.org/spin.js'></script>
+        <script src='/static/waiting.js'></script>
+        <link rel='stylesheet' href='static/style.css'>
+    </head>
+    <body>
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for message in messages %}
+                {{ message }}
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    <p>Soon you'll be experiencing this:...</p>
+    <img id='yelp_image' src='fakeurl'>
+    <br>
+    <br>
+    <div id='waiting'>
+    </div>
+</body>
+</html>

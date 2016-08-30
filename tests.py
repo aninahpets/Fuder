@@ -109,6 +109,24 @@ def _mock_get_start_coordinates(address):
 import server
 server.get_start_coordinates = _mock_get_start_coordinates
 
+fake_client = 
+    geocode(address):
+        self.assertEquals(address, expectedAddress)
+        return [{
+            'geometry': {
+                'location': {
+                    la
+                }
+            }
+        }]
+
+geocodeSpy = sinon.spy({ geocode: function() {} })
+clientMock = sinon.stub(googlemaps, 'Client').returns(geocodeSpy)
+
+lat, lng = get_start_coordinates("fake address", clientMock)
+self.assertTrue(geocodeSpy.calledOnce)
+self.assertEquals(geocodeSpy.firstCall.args, ['fake address'])
+self.assertEquals(lat)
 
 if __name__ == "__main__":  # pragma: no cover
     unittest.main()

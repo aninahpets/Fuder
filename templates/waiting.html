@@ -8,21 +8,24 @@
         <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
         <script src='http://spin.js.org/spin.js'></script>
         <script src='/static/waiting.js'></script>
+        <link rel='stylesheet' href='static/main.css'></script>
+        <link rel='stylesheet' href='static/bootstrap.css'></script>
         <link rel='stylesheet' href='static/style.css'>
     </head>
     <body>
-        {% with messages = get_flashed_messages() %}
+<!--         {% with messages = get_flashed_messages() %}
         {% if messages %}
             {% for message in messages %}
                 {{ message }}
             {% endfor %}
         {% endif %}
-    {% endwith %}
-    <p>Soon you'll be experiencing this:...</p>
-    <img id='yelp_image' src='fakeurl'>
-    <br>
-    <br>
+    {% endwith %} -->
     <div id='waiting'>
     </div>
+    <img id='yelp-image' src=''>
+    <br>
+    <br>
+    <br>
+    <br>
 </body>
 </html>

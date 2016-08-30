@@ -208,8 +208,7 @@ def get_image_url():
 def history():
     """Provides the user with a complete view of their visit history."""
 
-    # retrieve all visit/venue data for logged in user and add to list of 
-    get_uber_status()
+    # retrieve all visit/venue data for logged in user and add to list
     visits = []
     raw_visits = Visit.query.filter(Visit.user_id==session['user_id']).order_by(Visit.visited_at).all()
 

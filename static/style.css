@@ -1,3 +1,7 @@
-body {
-    padding-top: 70px;
+#yelp-image {
+    max-width: 250px;
+}
+
+#fuder-logo {
+    max-width: 100px;
 }

@@ -3,11 +3,13 @@
 
 $(document).ready(function () {
 
-    $(document).on('pageload',function (evt) {
-        $.get('/get_image_url.json', function (image_url) {
-            $('#yelp-image').attr('', image_url);
-            });
+    // $(document).on('pageload',function (evt) {
+    $.get('/get_image_url.json', function (image_url) {
+        console.log(image_url);
+        console.log($('#yelp-image'));
+        $('#yelp-image').attr('src', image_url);
         });
+        // });
 
         var opts = {
                       lines: 7 // The number of lines to draw

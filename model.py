@@ -39,7 +39,7 @@ class Visit(db.Model):
     ride_id = db.Column(db.String)
     uber_access_token = db.Column(db.String)
     visited_at = db.Column(db.DateTime,
-                         default=datetime.utcnow())
+                         default=datetime.utcnow)
     start_lat = db.Column(db.Float, nullable=False)
     start_lng = db.Column(db.Float, nullable=False)
     end_lat = db.Column(db.Float, nullable=False)

@@ -3,13 +3,17 @@
 
 $(document).ready(function () {
 
-    // $(document).on('pageload',function (evt) {
-    $.get('/get_image_url.json', function (image_url) {
-        console.log(image_url);
-        console.log($('#yelp-image'));
-        $('#yelp-image').attr('src', image_url);
+    $("#fakeloader").fakeLoader({
+        timeToHide:1500, //Time in milliseconds for fakeLoader disappear
+        zIndex:"999",//Default zIndex
+        spinner:"spinner2",//Options: 'spinner1', 'spinner2', 'spinner3', 'spinner4', 'spinner5', 'spinner6', 'spinner7'
+        bgColor:"#BB474B", //Hex, RGB or RGBA colors
+        // imagePath:"yourPath/customizedImage.gif" //If you want can you insert your custom image
         });
-        // });
+
+    $.get('/get_image_url.json', function (image_url) {
+        $('.yelp-image').attr('src', image_url);
+        });
 
         var opts = {
                       lines: 7 // The number of lines to draw
@@ -36,6 +40,20 @@ $(document).ready(function () {
 
         var target = document.getElementById('waiting');
         var spinner = new Spinner(opts).spin(target);
+
+        $('.yelp-image').magnificPopup({
+            type: 'image',
+            closeOnContentClick: true,
+            closeBtnInside: false,
+            fixedContentPos: true,
+            mainClass: 'mfp-no-margins mfp-with-zoom',
+            image: {
+                verticalFit: true
+            },
+            zoom: {
+                enabled: false
+            }
+        });
 
 
         // var timer;

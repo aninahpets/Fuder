@@ -1,7 +1,15 @@
-#yelp-image {
+#yelp-image-small {
     max-width: 250px;
 }
 
 #fuder-logo {
     max-width: 100px;
+}
+
+#historyModal {
+    text-align: left;
+}
+
+#modal-body {
+    text-align: left;
 }

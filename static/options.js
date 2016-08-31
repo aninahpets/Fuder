@@ -1,4 +1,3 @@
-// TODO: Add loading loop http://www.ajaxload.info/
 // TODO: Add autocomplete form functionality https://developers.google.com/maps/documentation/javascript/examples/places-autocomplete-addressform
 
 $(document).ready(function () {
@@ -29,7 +28,7 @@ $(document).ready(function () {
         });
     }
 
-// initialize the 'starting-point' list for future use
+    // initialize the 'starting-point' list for future use
     var initialVisitState = $('#history-list').html();
     function getHistory(evt) {
         // set list to initial 'blank slate' list to avoid duplicates
@@ -45,9 +44,7 @@ $(document).ready(function () {
         });
     }
 
-
     $('.venue-option-btn').click(getOptions);
     $('#history-button').click(getHistory);
-
 
 });

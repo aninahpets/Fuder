@@ -9,6 +9,7 @@
         <script src='/static/options.js'></script>
         <script src="assets/js/hover.zoom.js"></script>
         <script src="assets/js/hover.zoom.conf.js"></script>
+        <script src="jquery.watermarkinput.js" type="text/javascript"></script>
         <link rel='stylesheet' href='static/main.css'>
         <link rel='stylesheet' href='static/bootstrap.css'>
         <link rel='stylesheet' href='static/style.css'>
@@ -21,101 +22,92 @@
             {% endfor %}
         {% endif %}
     {% endwith %}
-       <div class="navbar navbar-inverse navbar-static-top">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-        </div>
-        <div class="navbar-collapse collapse">
-          </ul>
-        </div><!--/.nav-collapse -->
-      </div>
-    </div>
-<div id="ww">
-<div class="container">
-    <div class="row">
-        <div class="col-lg-8 col-lg-offset-2 centered">
-            <img src='static/fuder.png' id='fuder-logo'>
-    <div class='container'>
-        <form action='/get_user_auth' method='POST'>
-            <br>
-                <button type='button' class='btn btn-outline-secondary venue-option-btn' id='restaurant-button' name='restaurant-button' data-venue-type='restaurant' data-toggle='modal' data-target='#optionsModal'>
-                Eat
-                </button>
-                   <button type='button' class='btn btn-outline-secondary venue-option-btn' id='bar-button' name='bar-button' data-venue-type='bar' data-toggle='modal' data-target='#optionsModal'>
-                Drink
-                </button>
-                <div class='modal fade' id='optionsModal' role='dialog'>
-                    <div class='modal-dialog'>
-                        <div class='modal-content'>
-                            <div class='modal-body'>
-                                <p>What are you in the mood for?</p>
-                                <select name='venue-option' id='venue-options'>
-                                    <option value='surprise'>Surprise me!</option>
-                                </select>
-                                <br>
-                                <br>
-                                <p>How spendy are you feeling?</p>
-                                <input type='checkbox' name='price' value='1'>$
-                                <input type='checkbox' name='price' value='2'>$$
-                                <input type='checkbox' name='price' value='3'>$$$
-                                <input type='checkbox' name='price' value='4'>$$$$
-                                <br>
-                                <br>
-                                <label>Where can we pick you up? <input type='text' name='user-address' id='field-user-address' required>
-                                </label>
+    <div id="ww">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 centered">
+                    <img src='static/fuder.png' id='fuder-logo'>
+                    <div class='container'>
+                        <form action='/get_user_auth' method='POST'>
+                            <br>
+                            <button type='button' class='btn btn-outline-secondary venue-option-btn' id='restaurant-button' name='restaurant-button' data-venue-type='restaurant' data-toggle='modal' data-target='#optionsModal'>
+                            Eat
+                            </button>
+                            <button type='button' class='btn btn-outline-secondary venue-option-btn' id='bar-button' name='bar-button' data-venue-type='bar' data-toggle='modal' data-target='#optionsModal'>
+                            Drink
+                            </button>
+                            <div class='modal fade' id='optionsModal' role='dialog'>
+                                <div class='modal-dialog'>
+                                    <div class='modal-content'>
+                                        <div class='modal-body' id='modal-body'>
+                                            <p>What are you in the mood for?</p>
+                                            <select name='venue-option' id='venue-options'>
+                                                <option value='surprise'>Surprise me!</option>
+                                            </select>
+                                            <br>
+                                            <br>
+                                            <p>How spendy are you feeling?</p>
+                                            <input type='checkbox' name='price' value='1'>$
+                                            <input type='checkbox' name='price' value='2'>$$
+                                            <input type='checkbox' name='price' value='3'>$$$
+                                            <input type='checkbox' name='price' value='4'>$$$$
+                                            <br>
+                                            <br>
+                                            <p>Where can we pick you up?</p><input type='text' name='user-address' id='field-user-address' required placeholder='Required'>
+                                        </div>
+                                        <div class='modal-footer'>
+                                            <button type='button' class='btn btn-outline-secondary' data-dismiss='modal'>Start Over
+                                            </button>
+                                            <input type='submit' class='btn btn-outline-secondary' value='Take me out!' id='uber-auth-button'>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <div class='modal-footer'>
-                                <button type='button' class='btn btn-outline-secondary' data-dismiss='modal'>Start Over
-                                </button>
-                                <input type='submit' class='btn btn-outline-secondary' value='Take me out!' id='uber-auth-button'>
+                        </form>
+                    </div>
+                    <br>
+                    <div class='container'>
+                        <button type='button' class='btn btn-outline-secondary' id='history-button' data-toggle='modal' data-target='#historyModal'>
+                        View Visit History
+                        </button>
+                        <div class='modal fade' id='historyModal' role='dialog'>
+                            <div class='modal-dialog'>
+                                <div class='modal-content'>
+                                    <div class='modal-body'>
+                                        <ul id='history-list'>
+                                        </ul>
+                                    </div>
+                                    <div class='modal-footer'>
+                                        <button type='button' class='btn btn-outline-secondary' data-dismiss='modal'>Close
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
+                    <br>
+                    <br>
+                    <br>
                 </div>
-            </form>
+            </div>
         </div>
-
-        <br>
-        <div class='container'>
-            <button type='button' class='btn btn-outline-secondary' id='history-button' data-toggle='modal' data-target='#historyModal'>
-            View Visit History
-            </button>
-            <div class='modal fade' id='historyModal' role='dialog'>
-                <div class='modal-dialog'>
-                    <div class='modal-content'>
-                        <div class='modal-body'>
-                            <ul id='history-list'>
-                            </ul>
-                        </div>
-                        <div class='modal-footer'>
-                            <button type='button' class='btn btn-outline-secondary' data-dismiss='modal'>Close
-                            </button>
+    </div>
+    <div id="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4">
+                    <a href='/logout'>
+                        <button type='button' class='btn btn-outline-secondary' name='logout' id='button-logout'>Log Out</button>
+                    </a>
+                    <div class="col-lg-4">
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <br>
-        <br>
-        <br>
-                        </div><!-- /col-lg-8 -->
-            </div><!-- /row -->
-        </div> <!-- /container -->
-    </div><!-- /ww -->
-    <br>
-    <br>
-        <a href='/logout'>
-            <button type='button' class='btn btn-outline-secondary' name='logout' id='button-logout'>Log Out</button>
-        </a>
-<!-- 
-        <div class="poller">
-            <button class='poller__startButton'>Poll</button>
-            <span class="poller__data"></span>
-        </div> -->
-    </body>
-</html>
+            <!--
+            <div class="poller">
+                <button class='poller__startButton'>Poll</button>
+                <span class="poller__data"></span>
+            </div> -->
+        </body>
+    </html>

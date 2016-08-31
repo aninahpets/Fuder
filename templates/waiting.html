@@ -1,31 +1,58 @@
 <!doctype html>
-<!-- TODO: Add Bootstrap theme https://www.bootstrapzero.com/bootstrap-template/stanley -->
 <html>
     <head>
         <title>Fuder</title>
         <script src='https://code.jquery.com/jquery.js'></script>
         <link href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css' rel='stylesheet'>
         <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-        <script src='http://spin.js.org/spin.js'></script>
         <script src='/static/waiting.js'></script>
         <link rel='stylesheet' href='static/main.css'></script>
         <link rel='stylesheet' href='static/bootstrap.css'></script>
         <link rel='stylesheet' href='static/style.css'>
+        <link rel="stylesheet" href="static/fakeLoader.css">
+        <script src='static/fakeloader.js'></script>
     </head>
     <body>
-<!--         {% with messages = get_flashed_messages() %}
-        {% if messages %}
-            {% for message in messages %}
-                {{ message }}
-            {% endfor %}
-        {% endif %}
-    {% endwith %} -->
-    <div id='waiting'>
+        <div id="ww">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 col-lg-offset-2 centered">
+                        <div id="fakeloader"></div>
+                        <img src='static/fuder.png' id='fuder-logo'>
+                        <br>
+                        <br>
+                        <br>
+                        {% with messages = get_flashed_messages() %}
+                        {% if messages %}
+                            {% for message in messages %}
+                                {{ message }}
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+                    <br>
+                    <br>
+                    <br>
+                    <div class='container'>
+                        <button type='button' class='btn btn-outline-secondary' id='preview-button' data-toggle='modal' data-target='#previewModal'>
+                        Sneak Preview
+                        </button>
+                        <div class='modal fade' id='previewModal' role='dialog'>
+                            <div class='modal-dialog'>
+                                <div class='modal-content'>
+                                    <div class='modal-body'>
+                                        <img class='yelp-image' id='yelp-image-small' src=''>
+                                    </div>
+                                    <div class='modal-footer'>
+                                        <button type='button' class='btn btn-outline-secondary' data-dismiss='modal'>Close
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <img id='yelp-image' src=''>
-    <br>
-    <br>
-    <br>
-    <br>
 </body>
 </html>

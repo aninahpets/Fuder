@@ -96,9 +96,7 @@ def get_user_authorization():
     user_location = request.form.get('user-address')
     price = request.form.getlist('price')
     category = request.form.get('venue-option')
-
     price, category = create_yelp_price_cat_params(price, category)
-
     start = get_start_coordinates(user_location)
 
     # fetch destination venue from Yelp using start coordinates
@@ -106,7 +104,7 @@ def get_user_authorization():
     results = search_yelp(start[0], start[1], category, price)
     # redirect user if Yelp didn't return any results matching their request
     if not results['businesses']:
-        flash("Uh-oh, we couldn't find anywhere to take you. Please try narrowing your search a little!")
+        flash('Uh-oh, we couldn\'t find anywhere to take you. Please try narrowing your search a little!')
         return redirect('/')
     else:
         process_yelp_results(results, start[0], start[1])
@@ -129,10 +127,7 @@ def send_user_to_destination():
 
     # retrieve start and end coordinates from newly created visit record
     # coordinates = db.session.query(Visit.start_lat, Visit.start_lng, Visit.end_lat, Visit.end_lng, Visit.venues.city, Visit.venues.image).filter_by(user_id=session['user_id']).order_by('visited_at desc').first()
-    destination = Visit.query.filter(Visit.user_id==session['user_id']).order_by('visited_at desc').first()
-    coordinates = (destination.start_lat, destination.start_lng, destination.end_lat, destination.end_lng)
-    city = destination.venue.city
-    image = destination.venue.image
+    coordinates, city = Visit.get_uber_ride_params()
     # request a ride on behalf of the user
     request_uber_ride(coordinates[0], coordinates[1], coordinates[2], coordinates[3], uber_auth_flow, code, state)
     flash('Uber will be taking you to a mystery destination in %s!' % city)

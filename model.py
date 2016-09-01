@@ -19,7 +19,7 @@ class User(db.Model):
         if 'user_id' in session:
             return True
         return False
-        
+
     @classmethod
     def log_user_out(cls):
         # remove user session and confirm user logout
@@ -119,6 +119,12 @@ class Visit(db.Model):
     venue = db.relationship('Venue',
                             backref=db.backref('visits', order_by=visit_id))
 
+    @classmethod
+    def get_uber_ride_params(cls):
+        destination = Visit.query.filter(Visit.user_id==session['user_id']).order_by('visited_at desc').first()
+        coordinates = (destination.start_lat, destination.start_lng, destination.end_lat, destination.end_lng)
+        city = destination.venue.city
+        return coordinates, city
 
 #############################################################
 # Helper functions

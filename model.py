@@ -128,7 +128,7 @@ class Visit(db.Model):
 
 #############################################################
 # Helper functions
-def connect_to_db(app, db_uri="postgresql:///project"):
+def connect_to_db(app, db_uri='postgresql:///project'):
     """Connect the database to the Flask app."""
 
     app.config['SQLALCHEMY_DATABASE_URI'] = db_uri
@@ -146,7 +146,7 @@ def example_data():
     db.session.commit()
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     # If this file is run interactively, you will be able to interact directly
     # with the database
     from server import app

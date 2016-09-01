@@ -142,14 +142,14 @@ a:after {
 /* +++++ WRAP SECTIONS +++++ */
 
 #ww {
-	padding-top: 70px;
-	padding-bottom: 70px;
-	background-color: #CAE1FF;
+	padding-top: 150px;
+	padding-bottom: 150px;
+	background-color: #1ABC9C;
 }
 
 
 #footer {
-	background-color: #E2FFDD;
+	background-color: #EE6E73;
 	padding-top: 50px;
 	padding-bottom: 50px; 
 }

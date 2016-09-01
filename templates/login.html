@@ -1,39 +1,44 @@
 <!doctype html>
 <html>
-<head>
-    <title>Login</title>
-    <link href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css' rel='stylesheet'>
-</head>
-<body>
-
-<script src='https://code.jquery.com/jquery.js'></script>
-<script src='/static/registration-login-logout.js'></script>
-<link rel='stylesheet' href='./style.css'>
-
-
-{% with messages = get_flashed_messages() %}
-    {% if messages %}
-        {% for message in messages %}
-            {{ message }}
-
-        {% endfor %}
-    {% endif %}
-{% endwith %}
-
-
-<h4>Already registered? Log in here:</h4>
-<form action='/login_submit' method='POST'>
-    <label>Email: <input type='text' name='email' id='field-email'></label>
-    <label>Password: <input type='password' name='password' id='field-password'></label>
-    <input type='submit' name='login-button' id='field-login-button' value='Log In'></form>
-
-
-<h4>Not yet registered? Register here:</h4>
-
-<form action='/register' method='POST'>
-    <label>Email: <input type='text' name='email' id='field-new-email'></label>
-    <label>Password: <input type='password' name='password' id='field-new-password'></label>
-    <input type='submit' name='register-button' id='field-register-button' value='Register'></form>
-
+    <head>
+        <title>Login</title>
+        <link href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css' rel='stylesheet'>
+        <script src='https://code.jquery.com/jquery.js'></script>
+        <script src='/static/registration-login-logout.js'></script>
+        <link rel='stylesheet' href='static/main.css'>
+        <link rel='stylesheet' href='static/bootstrap.css'>
+        <link rel='stylesheet' href='static/style.css'>
+    </head>
+    <body>
+        <div id="ww">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 col-lg-offset-2 centered">
+                        <img src='static/fuder.png' id='fuder-logo'>
+                        <br>
+                        <br>
+                        <br>
+                        {% with messages = get_flashed_messages() %}
+                        {% if messages %}
+                            {% for message in messages %}
+                                {{ message }}
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+                    <form action='/login_submit' id='login-form' method='POST'>
+                        <h4>Already registered? Log in here:</h4>
+                        <label>Email: <input type='text' name='email' id='field-email'></label>
+                        <label>Password: <input type='password' name='password' id='field-password'></label>
+                    <input type='submit' name='login-button' class='btn btn-outline-secondary' id='field-login-button' value='Log In'></form>
+                    <br>
+                    <form action='/register' id='registration-form' method='POST'>
+                        <h4>Not yet registered? Register here:</h4>
+                        <label>Email: <input type='text' name='email' id='field-new-email'></label>
+                        <label>Password: <input type='password' name='password' id='field-new-password'></label>
+                    <input type='submit' name='register-button' class='btn btn-outline-secondary' id='field-register-button' value='Register'></form>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

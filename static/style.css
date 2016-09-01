@@ -13,3 +13,19 @@
 #modal-body {
     text-align: left;
 }
+
+#login-form {
+    text-align: left;
+}
+
+#registration-form {
+    text-align: left;
+}
+
+#optionsModal {
+    background-color: #EE6E73;
+}
+
+#historyModal {
+    background-color: #EE6E73;
+}

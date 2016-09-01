@@ -1,5 +1,4 @@
 import os
-import pdb
 import bcrypt
 import json
 from flask import Flask, render_template, redirect, request, flash, session, jsonify
@@ -23,10 +22,10 @@ uber_auth_flow = AuthorizationCodeGrant(
 @app.route('/')
 def index():
     """Checks for user login and returns homepage or login template."""
-
+    google_api_key=os.environ['google_api_key']
     # checks to see if user logged in; redirects to login if not
     if 'user_id' in session:
-        return render_template('index.html')
+        return render_template('index.html', google_api_key=google_api_key)
     else:
         flash('Please log in.')
         return redirect('/login')

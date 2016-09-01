@@ -8,7 +8,7 @@ from model import User, Venue, Visit, connect_to_db, db
 from helper_functions import *
 
 app = Flask(__name__)
-app.secret_key = "secret_key"
+app.secret_key = 'secret_key'
 
 # instantiating AuthorizationCodeGrant object for use with Uber methods
 # across the app

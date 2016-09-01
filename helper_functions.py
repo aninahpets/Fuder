@@ -63,18 +63,18 @@ def request_uber_ride(start_lat, start_lng, end_lat, end_lng, uber_auth_flow, co
     visit.uber_access_token = access_token
     db.session.commit()
 
-def get_uber_status():
-    """Retrieve logged in user's most recent ride request status"""
-    query_result = db.session.query(Visit.ride_id, Visit.uber_access_token).filter(Visit.user_id==session['user_id']).order_by('visited_at desc').first()
-    ride_id = query_result.ride_id
-    access_token = query_result.uber_access_token
+# def get_uber_status():
+#     """Retrieve logged in user's most recent ride request status"""
+#     query_result = db.session.query(Visit.ride_id, Visit.uber_access_token).filter(Visit.user_id==session['user_id']).order_by('visited_at desc').first()
+#     ride_id = query_result.ride_id
+#     access_token = query_result.uber_access_token
 
-    requests.put('https://api.uber.com/v1/sandbox/requests/%s' % ride_id, 
-        headers={'Authorization': 'Bearer %s' % access_token, 'Content-Type': 'application/json'},
-        json="{\"status\": \"accepted\"}")
+#     requests.put('https://api.uber.com/v1/sandbox/requests/%s' % ride_id, 
+#         headers={'Authorization': 'Bearer %s' % access_token, 'Content-Type': 'application/json'},
+#         json="{\"status\": \"accepted\"}")
 
-    response = requests.get('https://api.uber.com/v1/sandbox/requests/%s' % ride_id, 
-        headers={'Authorization': 'Bearer %s' % access_token})
+#     response = requests.get('https://api.uber.com/v1/sandbox/requests/%s' % ride_id, 
+#         headers={'Authorization': 'Bearer %s' % access_token})
 
     # response = requests.get('https://api.uber.com/v1/requests/%s' % ride_id,
     #     headers={
@@ -96,7 +96,7 @@ def search_yelp(start_lat, start_lng, category, price):
     """Use Yelp API v3 to fetch a list of venues."""
    
     # make a request to Yelp's oauth2/token endpoint using app credentials
-    resp = requests.post("https://api.yelp.com/oauth2/token",
+    resp = requests.post('https://api.yelp.com/oauth2/token',
                          data={'grant_type': 'client_credentials',
                                'client_id': os.environ['yelp_app_id'],
                                'client_secret': os.environ['yelp_app_secret']})

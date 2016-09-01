@@ -81,6 +81,17 @@ def get_uber_status():
     #         'Authorization': 'Bearer %s' % access_token
     #     })
 
+def create_yelp_price_cat_params(price, category):
+    if price:
+        price = ','.join(str(x) for x in price)
+    else:
+        price = '1,2,3,4'
+
+    if category == 'surprise':
+        # TODO: FIX TO INCLUDE BARS IF BARS SELECTED
+        category = 'restaurants'
+    return price, category
+
 def search_yelp(start_lat, start_lng, category, price):
     """Use Yelp API v3 to fetch a list of venues."""
    

@@ -24,19 +24,19 @@ def index():
     """Checks for user login and returns homepage or login template."""
     google_api_key=os.environ['google_api_key']
     # checks to see if user logged in; redirects to login if not
-    if 'user_id' in session:
+    if User.user_logged_in():
         return render_template('index.html', google_api_key=google_api_key)
     else:
         flash('Please log in.')
         return redirect('/login')
 
-@app.route('/status')
-def get_status():
-    if 'count' in session:
-        session['count'] = session['count'] + 1
-    else:
-        session['count'] = 0
-    return jsonify({'count': session['count']})
+# @app.route('/status')
+# def get_status():
+#     if 'count' in session:
+#         session['count'] = session['count'] + 1
+#     else:
+#         session['count'] = 0
+#     return jsonify({'count': session['count']})
 
 ################################################
 # User management routes
@@ -44,7 +44,6 @@ def get_status():
 @app.route('/login')
 def login():
     """Provides user login form."""
-
     # checks to see if user logged in; redirect to homepage if so
     if 'user_id' in session:
         return redirect('/')
@@ -60,25 +59,9 @@ def submit_login():
     password = request.form.get('password')
 
     # retrieves user object from database
-    user = User.query.filter_by(email=email).first()
-    if user == None:
-        flash("Uh-oh, we couldn't find you. Please register.")
-        return redirect('/login')
-
-    # logs current user out if session exists
-    if 'user_id' in session:
-        del session['user_id']
-
-    # checks for password match and creates new session if successful
-    if bcrypt.checkpw(password, user.password):
-    # if user.password == password:
-        session['user_id'] = user.user_id
+    if User.log_user_in(email, password):
         return redirect('/')
-
-    # redirects to login page if unsuccessful
-    else:
-        flash('Your password was incorrect. Please try again.')
-        return redirect('/login')
+    return render_template('login.html')
 
 
 @app.route('/register', methods=['POST'])
@@ -88,26 +71,15 @@ def register():
     # TODO: Form validation
     email = request.form.get('email')
     password = request.form.get('password')
+    User.create_user(email, password)
 
-    # hash and salt user pw
-    password = bcrypt.hashpw(password, bcrypt.gensalt())
-
-    # create new user record and add to database
-    new_user = User(email=email, password=password)
-    db.session.add(new_user)
-    db.session.commit()
-
-    session['user_id'] = new_user.user_id
     return redirect('/')
 
 
 @app.route('/logout')
 def logout():
     """Logs user out of app."""
-
-    # remove user session and confirm user logout
-    del session['user_id']
-    flash('You are now logged out.')
+    User.log_user_out()
     return redirect('/login')
 
 
@@ -123,14 +95,9 @@ def get_user_authorization():
     # retrieve user's location from text input and return as start coordinates
     user_location = request.form.get('user-address')
     price = request.form.getlist('price')
-    if price:
-        price = ','.join(str(x) for x in price)
-    else:
-        price = '1,2,3,4'
     category = request.form.get('venue-option')
-    if category == 'surprise':
-        # TODO: FIX TO INCLUDE BARS IF BARS SELECTED
-        category = 'restaurants'
+
+    price, category = create_yelp_price_cat_params(price, category)
 
     start = get_start_coordinates(user_location)
 
@@ -156,7 +123,6 @@ def send_user_to_destination():
     Retrieves credentials from Uber callback, retrieves start/end coordinates
     from the database, and requests an Uber on behalf of the user.
     """
-
     # retrieve code and state from Uber's GET request to /callback route
     code = request.args.get('code')
     state = request.args.get('state')
@@ -193,27 +159,19 @@ def provide_options():
 @app.route('/waiting')
 def get_uber_ride_status():
     # get_uber_status()
-    # jsonify uber status and return to AJAX, which will continue to poll
+    # TODO: jsonify uber status and return to AJAX, which will continue to poll
     # return rendertemplate when ride is on way and give options to cancel/start over
     return render_template('waiting.html')
 
 @app.route('/get_image_url.json')
 def get_image_url():
-    query_result = Visit.query.filter(Visit.user_id==session['user_id']).order_by('visited_at desc').first()
-    image_url = query_result.venue.image
+    image_url = Venue.get_venue_img()
     return jsonify(image_url)
 
 @app.route('/get_history.json')
 def history():
     """Provides the user with a complete view of their visit history."""
-
-    # retrieve all visit/venue data for logged in user and add to list
-    visits = []
-    raw_visits = Visit.query.filter(Visit.user_id==session['user_id']).order_by(Visit.visited_at).all()
-
-    for visit in raw_visits:
-        visits.append('%s, %s on %s' % (visit.venue.name, visit.venue.city, visit.visited_at.strftime('%B %d, %Y')))
-
+    visits = User.get_user_visit_history()
     return jsonify(visits)
 
 

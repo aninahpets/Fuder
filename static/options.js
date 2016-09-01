@@ -2,6 +2,12 @@
 
 $(document).ready(function () {
 
+    function autocompleteAddress() {
+        var input = $('#field-user-address')[0];
+        var autocomplete = new google.maps.places.Autocomplete(input);
+    }
+
+
     // initialize the 'starting-point' dropdown for future use
     var initialDropdownState = $('#venue-options').html();
 
@@ -46,5 +52,6 @@ $(document).ready(function () {
 
     $('.venue-option-btn').click(getOptions);
     $('#history-button').click(getHistory);
+    google.maps.event.addDomListener(window, 'load', autocompleteAddress);
 
 });

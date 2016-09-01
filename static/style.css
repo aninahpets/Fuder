@@ -29,3 +29,7 @@
 #historyModal {
     background-color: #EE6E73;
 }
+
+.pac-container {
+    z-index: 10000;
+}

@@ -108,6 +108,10 @@ def process_yelp_results(results, start_lat, start_lng):
     # select the business to which we will send the user at random
     optionsnumber = randrange(len(results['businesses']))
     business = results['businesses'][optionsnumber]
+    # TODO: Check user's visit history to avoid repeats
+    # if business['id'] in db.session.query(Venue.venue_id).filter(User.user_id==session['user_id']).all():
+    #     search_yelp()
+
 
     # extract necessary data from json results and store in a dict
     destination = {'name': business['name'],

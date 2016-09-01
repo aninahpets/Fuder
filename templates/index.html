@@ -16,18 +16,20 @@
         <link rel="icon" href="/favicon.ico">
     </head>
     <body>
-        {% with messages = get_flashed_messages() %}
-        {% if messages %}
-            {% for message in messages %}
-                {{ message }}
-            {% endfor %}
-        {% endif %}
-    {% endwith %}
-    <div id="ww">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-8 col-lg-offset-2 centered">
-                    <img src='static/fuder.png' id='fuder-logo'>
+        <div id="ww">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 col-lg-offset-2 centered">
+                        <img src='static/fuder.png' id='fuder-logo'>
+                        <br>
+                        <br>
+                        {% with messages = get_flashed_messages() %}
+                        {% if messages %}
+                            {% for message in messages %}
+                                {{ message }}
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
                     <div class='container'>
                         <form action='/get_user_auth' method='POST'>
                             <br>
@@ -101,14 +103,14 @@
                         <button type='button' class='btn btn-warning' name='logout' id='button-logout'>Log Out</button>
                     </a>
                     <div class="col-lg-4">
-                        </div>
                     </div>
                 </div>
             </div>
-            <!--
-            <div class="poller">
-                <button class='poller__startButton'>Poll</button>
-                <span class="poller__data"></span>
-            </div> -->
-        </body>
-    </html>
+        </div>
+        <!--
+        <div class="poller">
+            <button class='poller__startButton'>Poll</button>
+            <span class="poller__data"></span>
+        </div> -->
+    </body>
+</html>

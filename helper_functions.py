@@ -69,7 +69,7 @@ def get_uber_status():
     ride_id = query_result.ride_id
     access_token = query_result.uber_access_token
 
-    print 'in the put request', requests.put('https://api.uber.com/v1/sandbox/requests/%s' % ride_id, 
+    requests.put('https://api.uber.com/v1/sandbox/requests/%s' % ride_id, 
         headers={'Authorization': 'Bearer %s' % access_token, 'Content-Type': 'application/json'},
         json="{\"status\": \"accepted\"}")
 

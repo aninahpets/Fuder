@@ -1,6 +1,7 @@
 import os
 import bcrypt
 import json
+import pdb
 from flask import Flask, render_template, redirect, request, flash, session, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import func, desc
@@ -22,7 +23,7 @@ uber_auth_flow = AuthorizationCodeGrant(
 @app.route('/')
 def index():
     """Checks for user login and returns homepage or login template."""
-    google_api_key=os.environ['google_api_key']
+    google_api_key = os.environ['google_api_key']
     # checks to see if user logged in; redirects to login if not
     if User.user_logged_in():
         return render_template('index.html', google_api_key=google_api_key)
@@ -104,7 +105,8 @@ def get_user_authorization():
     results = search_yelp(start[0], start[1], category, price)
     # redirect user if Yelp didn't return any results matching their request
     if not results['businesses']:
-        flash('Uh-oh, we couldn\'t find anywhere to take you. Please try narrowing your search a little!')
+        flash("Uh-oh, we couldn't find anywhere to take you. Please try \
+            narrowing your search a little!")
         return redirect('/')
     else:
         process_yelp_results(results, start[0], start[1])
@@ -118,7 +120,7 @@ def get_user_authorization():
 @app.route('/callback')
 def send_user_to_destination():
     """
-    Retrieves credentials from Uber callback, retrieves start/end coordinates
+    Retrieves credentials from Uber callback, retrieves start/end coordinates 
     from the database, and requests an Uber on behalf of the user.
     """
     # retrieve code and state from Uber's GET request to /callback route
@@ -126,10 +128,10 @@ def send_user_to_destination():
     state = request.args.get('state')
 
     # retrieve start and end coordinates from newly created visit record
-    # coordinates = db.session.query(Visit.start_lat, Visit.start_lng, Visit.end_lat, Visit.end_lng, Visit.venues.city, Visit.venues.image).filter_by(user_id=session['user_id']).order_by('visited_at desc').first()
     coordinates, city = Visit.get_uber_ride_params()
     # request a ride on behalf of the user
-    request_uber_ride(coordinates[0], coordinates[1], coordinates[2], coordinates[3], uber_auth_flow, code, state)
+    request_uber_ride(coordinates[0], coordinates[1], coordinates[2], 
+                        coordinates[3], uber_auth_flow, code, state)
     flash('Uber will be taking you to a mystery destination in %s!' % city)
     return redirect('/waiting')
 
@@ -155,7 +157,8 @@ def provide_options():
 def get_uber_ride_status():
     # get_uber_status()
     # TODO: jsonify uber status and return to AJAX, which will continue to poll
-    # return rendertemplate when ride is on way and give options to cancel/start over
+    # return rendertemplate when ride is on way and give options to
+    # cancel/start over
     return render_template('waiting.html')
 
 @app.route('/get_image_url.json')

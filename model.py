@@ -44,7 +44,7 @@ class User(db.Model):
         # retrieves user object from database
         user = User.query.filter_by(email=email).first()
         if user == None:
-            flash('Uh-oh, we couldn\'t find you. Please register.')
+            flash("Uh-oh, we couldn\'t find you. Please register.")
             return False
 
         # logs current user out if session exists
@@ -139,8 +139,13 @@ def connect_to_db(app, db_uri='postgresql:///project'):
 
 def example_data():
     Annie = User(user_id=1, email='annie@test.com', password='abc123')
-    Analog = Venue(venue_id='analog-oakland', name='Analog', latitude=37.8040172, longitude=-122.2703549, city='Oakland', image='http://s3-media3.fl.yelpcdn.com/bphoto/NdTIPJGMzmxqpCdjXpeJcw/o.jpg')
-    visit_1 = Visit(user_id=1, venue_id='analog-oakland', start_lat=37.7929816, start_lng=-122.4041434, end_lat=37.8040172, end_lng=-122.2703549)
+    Analog = Venue(venue_id='analog-oakland', name='Analog', 
+                    latitude=37.8040172, longitude=-122.2703549, city='Oakland',
+                     image='http://s3-media3.fl.yelpcdn.com/bphoto/NdTIPJGMzmxq\
+                     pCdjXpeJcw/o.jpg')
+    visit_1 = Visit(user_id=1, venue_id='analog-oakland', start_lat=37.7929816, 
+                    start_lng=-122.4041434, end_lat=37.8040172, 
+                    end_lng=-122.2703549)
 
     db.session.add_all([Annie, Analog, visit_1])
     db.session.commit()

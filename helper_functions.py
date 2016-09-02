@@ -34,7 +34,8 @@ def get_user_auth(uber_auth_flow):
     return uber_auth_url
 
 
-def request_uber_ride(start_lat, start_lng, end_lat, end_lng, uber_auth_flow, code, state):
+def request_uber_ride(start_lat, start_lng, end_lat, end_lng, 
+                        uber_auth_flow, code, state):
     """Send a ride request on behalf of a user."""
 
 # if uber_session in session:
@@ -106,9 +107,9 @@ def search_yelp(start_lat, start_lng, category, price):
 
     # make a request to Yelp's API with the returned access token using the 
     # start coordinates as search params
-    results = requests.get('https://api.yelp.com/v3/businesses/search?latitude=%s&longitude=%s&sort_by=rating&categories=%s&price=%s&open_now_filter=True' % (start_lat, start_lng, category, price),
+    results = requests.get('https://api.yelp.com/v3/businesses/search?latitude=%s&longitude=%s&sort_by=rating&categories=%s&price=%s&open_now_filter=True' % (start_lat, start_lng, 
+                                category, price),
         headers={'Authorization': 'Bearer %s' % yelp_access_token})
-
     results = results.json()
 
     return results

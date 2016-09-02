@@ -33,3 +33,42 @@
 .pac-container {
     z-index: 10000;
 }
+
+label {
+  display: inline-block;
+  margin-right: 10px;
+}
+
+label {
+  display: inline-block;
+  margin-right: 10px;
+}
+
+.price label {
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.price input[type=checkbox] {
+  visibility: hidden;
+  position: absolute;
+}
+
+.price[data-num="1"] label:nth-child(1) {
+  color: gold;
+}
+
+.price[data-num="2"] label:nth-child(1),
+.price[data-num="2"] label:nth-child(2){
+  color: gold;
+}
+
+.price[data-num="3"] label:nth-child(1),
+.price[data-num="3"] label:nth-child(2),
+.price[data-num="3"] label:nth-child(3) {
+  color: gold;
+}
+
+.price[data-num="4"] label {
+  color: gold;
+}

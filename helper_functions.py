@@ -107,12 +107,13 @@ def search_yelp(start_lat, start_lng, category, price):
 
     # make a request to Yelp's API with the returned access token using the 
     # start coordinates as search params
-    results = requests.get('https://api.yelp.com/v3/businesses/search?latitude=%s&longitude=%s&sort_by=rating&categories=%s&price=%s&open_now_filter=True' % (start_lat, start_lng, 
-                                category, price),
-        headers={'Authorization': 'Bearer %s' % yelp_access_token})
-    results = results.json()
+    yelp_search_url = 'https://api.yelp.com/v3/businesses/search?latitude=%s&longitude=%s&sort_by=rating&categories=%s&price=%s&open_now_filter=True'
+    results = requests.get(
+        yelp_search_url % (start_lat, start_lng, category, price),
+        headers={ 'Authorization': 'Bearer %s' % yelp_access_token }
+        )
 
-    return results
+    return results.json()
     
 def process_yelp_results(results, start_lat, start_lng):
     """Select venue from list of venues and create venue and visit records in
@@ -140,7 +141,7 @@ def process_yelp_results(results, start_lat, start_lng):
 
     # check to see if the venue exists in the database (create a venue record
     # if not) and create a visit record
-    match = db.session.query(Venue).filter_by(venue_id=destination['id']).first()
+    venue = db.session.query(Venue).filter_by(venue_id=destination['id']).first()
 
     visit = Visit(user_id=session['user_id'],
                             venue_id=destination['id'],
@@ -149,9 +150,8 @@ def process_yelp_results(results, start_lat, start_lng):
                             end_lat=destination['latitude'],
                             end_lng=destination['longitude'])
 
-    if match:
-        new_visit = visit
-        db.session.add(new_visit)
+    if venue:
+        db.session.add(visit)
         db.session.commit()
 
     else:
@@ -162,9 +162,5 @@ def process_yelp_results(results, start_lat, start_lng):
                             city=destination['city'],
                             image=destination['image'])
         db.session.add(new_venue)
-        db.session.commit()
-
-        new_visit = visit
-
-        db.session.add(new_visit)
+        db.session.add(visit)
         db.session.commit()

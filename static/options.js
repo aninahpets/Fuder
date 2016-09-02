@@ -2,11 +2,18 @@
 
 $(document).ready(function () {
 
+    $('#chckbx-1').attr('checked', true);
+
     function autocompleteAddress() {
         var input = $('#field-user-address')[0];
         var autocomplete = new google.maps.places.Autocomplete(input);
     }
 
+    function geolocateAddress() {    
+        navigator.geolocation.getCurrentPosition(function(position) {
+          console.log(position.coords.latitude, position.coords.longitude);
+        }
+    );}
 
     // initialize the 'starting-point' dropdown for future use
     var initialDropdownState = $('#venue-options').html();
@@ -49,6 +56,12 @@ $(document).ready(function () {
             }
         });
     }
+
+    $('.price input').change(function() {
+      $(this).parents('.price').get(0).setAttribute('data-num', this.value);
+      $('.checkbox').prop('checked', false);
+      $(this).prop('checked', true);
+    });
 
     $('.venue-option-btn').click(getOptions);
     $('#history-button').click(getHistory);

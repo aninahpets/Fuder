@@ -14,6 +14,28 @@ APIs: Yelp, Uber, Google Places<br/>
 
 ## <a name="features"></a>Features
 
+###Using a simple UI, users can choose to either be taken to a bar or restaurant:
+![](https://cloud.githubusercontent.com/assets/18404713/18288887/059969d2-7432-11e6-9957-9dc41d04d753.png)
+
+###Users can then select their pricing and venue preferences:
+![](https://cloud.githubusercontent.com/assets/18404713/18288891/05ac5092-7432-11e6-9efa-73d7d0ca365c.png)
+
+###They then enter their location:
+![](https://cloud.githubusercontent.com/assets/18404713/18288890/05ab00ca-7432-11e6-82b9-e999ce98efc3.png)
+
+###Uber prompts them for authorization:
+![](https://cloud.githubusercontent.com/assets/18404713/18288892/05afdb68-7432-11e6-8934-3874fad5d45d.png)
+![](https://cloud.githubusercontent.com/assets/18404713/18288884/05973676-7432-11e6-8871-9d11484a7446.png)
+
+###The request is then completed and users can view a "sneak preview" while they wait for their ride:
+![](https://cloud.githubusercontent.com/assets/18404713/18288885/0597a5e8-7432-11e6-96fb-f5743f78792f.png)
+![](https://cloud.githubusercontent.com/assets/18404713/18288889/059a2958-7432-11e6-8abd-0892678ecac5.png)
+
+###Users can also view their visit history:
+![](https://cloud.githubusercontent.com/assets/18404713/18288886/05989da4-7432-11e6-98c7-4a2be7105e92.png)
+
+###The app also have a user management system incorporating password encryption.
+
 ## <a name="install"></a>Installation
 
 To run Fuder:

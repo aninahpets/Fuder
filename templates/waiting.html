@@ -1,6 +1,11 @@
+<script src='https://code.jquery.com/jquery.js'></script>
+<script src='/static/waiting.js'></script>
 {% extends 'base.html' %}
 {% block content %}
-    <div class='container centered'>
+    <div class='fuder-logo-div'>
+        <img src='static/fuder.png' id='fuder-logo' alt='Fuder'>
+    </div>
+    <div class='container-centered'>
         <button type='button' class='btn btn-warning' id='preview-button' data-toggle='modal' data-target='#previewModal'>
         Sneak Preview
         </button>
@@ -12,7 +17,7 @@
                         <img class='yelp-image img-circle' id='yelp-image-small' src=''>
                     </div>
                     <div class='modal-footer'>
-                        <button type='button' class='btn btn-outline-secondary' data-dismiss='modal'>Close
+                        <button type='button' class='btn btn-warning' data-dismiss='modal'>Close
                         </button>
                     </div>
                 </div>

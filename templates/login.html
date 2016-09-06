@@ -1,5 +1,8 @@
 {% extends 'base.html' %}
 {% block content %}
+    <div class='fuder-logo-div'>
+        <img src='static/fuder.png' id='fuder-logo' alt='Fuder'>
+    </div>
     <form action='/login_submit' class='user-forms' id='login-form' method='POST'>
         <h4>Already registered? Log in here:</h4>
         <label>Email: <input type='text' name='email' id='field-email'></label>

@@ -1,9 +1,9 @@
 * {
   box-sizing: border-box;
-  font-family: Century Gothic, sans-serif;
+  font-family: Verdana, Geneva, sans-serif;
 }
 
-#fuder-logo-div {
+.fuder-logo-div {
     padding: 2em;
     text-align: center;
 }
@@ -30,10 +30,21 @@
     justify-content: center;
 }
 
+.container-centered{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .option-buttons {
     flex-direction: row;
     align-items: center;
     padding-bottom: .5em;
+    text-align: center;
+}
+
+#previewModal {
+    align-items: center;
     text-align: center;
 }
 

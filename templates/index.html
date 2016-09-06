@@ -1,6 +1,9 @@
+<script src='https://code.jquery.com/jquery.js'></script>
+<script src='/static/options.js'></script>
+<script type='text/javascript' src='https://maps.googleapis.com/maps/api/js?key={{ google_api_key }}&libraries=places'></script>
 {% extends 'base.html' %}
 {% block content %}
-    <div id='fuder-logo-div'>
+    <div class='fuder-logo-div'>
         <img src='static/fuder.png' id='fuder-logo' alt='Fuder'>
     </div>
     <div id='button-wrapper'>
@@ -55,7 +58,7 @@
                     </ul>
                 </div>
                 <div class='modal-footer'>
-                    <button type='button' class='btn btn-warning btn-xlarge' data-dismiss='modal'>Close
+                    <button type='button' class='btn btn-warning' data-dismiss='modal'>Close
                     </button>
                 </div>
             </div>

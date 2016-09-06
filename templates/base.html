@@ -5,9 +5,6 @@
         <script src='https://code.jquery.com/jquery.js'></script>
         <link href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css' rel='stylesheet'>
         <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-        <script src='/static/waiting.js'></script>
-        <script src='/static/options.js'></script>
-        <script type='text/javascript' src='https://maps.googleapis.com/maps/api/js?key={{ google_api_key }}&libraries=places'></script>
         <link rel='stylesheet' href='static/style.css'>
         <link rel="stylesheet" href="static/fakeLoader.css">
         <link rel="icon" href="/favicon.ico">
@@ -16,15 +13,6 @@
     <body>
         <div class='main'>
             <div class='content-container'>
-                <div class='header'>
-                    {% with messages = get_flashed_messages() %}
-                    {% if messages %}
-                        {% for message in messages %}
-                            {{ message }}
-                        {% endfor %}
-                    {% endif %}
-                {% endwith %}
-                </div>
                 <div class='content'>
                     {% block content %}
                         Placeholder content

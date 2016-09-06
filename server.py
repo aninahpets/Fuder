@@ -28,7 +28,6 @@ def index():
     if User.user_logged_in():
         return render_template('index.html', google_api_key=google_api_key)
     else:
-        flash('Please log in.')
         return redirect('/login')
 
 # @app.route('/status')
@@ -132,7 +131,6 @@ def send_user_to_destination():
     # request a ride on behalf of the user
     request_uber_ride(coordinates[0], coordinates[1], coordinates[2], 
                         coordinates[3], uber_auth_flow, code, state)
-    flash('Uber will be taking you to a mystery destination in %s!' % city)
     return redirect('/waiting')
 
 

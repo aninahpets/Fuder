@@ -16,13 +16,15 @@ APIs: Yelp, Uber, Google Places<br/>
 
 ## <a name="install"></a>Installation
 
-To run Fuder, please clone or fork this repo:
+To run Fuder:
+
+Install PostgreSQL (Mac OSX)
+
+Clone or fork this repo:
 
 ```
 https://github.com/aninahpets/Fuder.git
 ```
-
-Install PostgreSQL (Mac OSX)
 
 Create and activate a virtual environment inside your Fuder directory:
 

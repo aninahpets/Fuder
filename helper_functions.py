@@ -41,9 +41,9 @@ def request_uber_ride(start_lat, start_lng, end_lat, end_lng,
 # if uber_session in session:
     # return client(uber_session, sandbox_mode=True)
     # TODO: Store code and state for when uber_client fails because uber_session is expired***
-
+    uber_auth_url = 'http://0.0.0.0:5000/callback?code=%s&state=%s'
     # Instantiate new session & client object and retrieve credentials
-    uber_session = uber_auth_flow.get_session('http://0.0.0.0:5000/callback?code=%s&state=%s' % (code, state))
+    uber_session = uber_auth_flow.get_session(uber_auth_url % (code, state))
     uber_client = UberRidesClient(uber_session, sandbox_mode=True)
     credentials = uber_session.oauth2credential
     access_token = credentials.access_token
@@ -107,7 +107,9 @@ def search_yelp(start_lat, start_lng, category, price):
 
     # make a request to Yelp's API with the returned access token using the 
     # start coordinates as search params
-    yelp_search_url = 'https://api.yelp.com/v3/businesses/search?latitude=%s&longitude=%s&sort_by=rating&categories=%s&price=%s&open_now_filter=True'
+    yelp_search_url = ('https://api.yelp.com/v3/businesses/search?'
+        'latitude=%s&longitude=%s&sort_by=rating&categories=%s&'
+        'price=%s&open_now_filter=True')
     results = requests.get(
         yelp_search_url % (start_lat, start_lng, category, price),
         headers={ 'Authorization': 'Bearer %s' % yelp_access_token }

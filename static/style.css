@@ -1,3 +1,69 @@
+* {
+  box-sizing: border-box;
+  font-family: Century Gothic, sans-serif;
+}
+
+#fuder-logo-div {
+    padding: 2em;
+    text-align: center;
+}
+
+.main {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    background-color: #1ABC9C;
+}
+
+.content-container {
+    height: 100%;
+    padding: 0;
+    margin: 0;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.option-buttons {
+    flex-direction: row;
+    align-items: center;
+    padding-bottom: .5em;
+    text-align: center;
+}
+
+.content {
+    flex-grow: 1;
+    width: auto;
+}
+
+.history-button {
+    text-align: center;
+}
+
+.user-forms {
+    padding-top: 20px;
+}
+
+#footer {
+    height: 100px;
+    display: flex;
+    width: 100%;
+    background-color: #EE6E73;
+    flex-direction: row;
+    align-items: center;
+}
+
+#footer-button {
+
+    margin-left: auto;
+}
+
 #yelp-image-small {
     max-width: 250px;
 }

@@ -1,58 +1,24 @@
-<!doctype html>
-<!-- TODO: Add Bootstrap theme https://www.bootstrapzero.com/bootstrap-template/stanley -->
-<html>
-    <head>
-        <title>Fuder</title>
-        <script src='https://code.jquery.com/jquery.js'></script>
-        <link href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css' rel='stylesheet'>
-        <script src='http://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js'></script>
-        <script type='text/javascript' src='https://maps.googleapis.com/maps/api/js?key={{ google_api_key }}&libraries=places'></script>
-        <script src='/static/options.js'></script>
-        <script src='/static/hover.zoom.js'></script>
-        <script src='/static/hover.zoom.conf.js'></script>
-        <link rel='stylesheet' href='static/main.css'>
-        <link rel='stylesheet' href='static/bootstrap.css'>
-        <link rel='stylesheet' href='static/style.css'>
-        <link rel='icon' href='/favicon.ico'>
-    </head>
-    <body>
-        <div id='ww'>
-            <div class='container'>
-                <div class='row'>
-                    <div class='col-lg-8 col-lg-offset-2 centered'>
-                        <img src='static/fuder.png' id='fuder-logo' alt="Fuder">
-                        {% with messages = get_flashed_messages() %}
-                        {% if messages %}
-                            {% for message in messages %}
-                                {{ message }}
-                            {% endfor %}
-                        {% endif %}
-                    {% endwith %}
-                    <div class='container'>
-                        <button type='button' class='btn btn-warning venue-option-btn' id='restaurant-button' name='restaurant-button' data-venue-type='restaurant' data-toggle='modal' data-target='#optionsModal'>
-                        Eat
-                        </button>
-                        <button type='button' class='btn btn-warning venue-option-btn' id='bar-button' name='bar-button' data-venue-type='bar' data-toggle='modal' data-target='#optionsModal'>
-                        Drink
-                        </button>
-                    </div>
-                    <div class='container'>
-                        <button type='button' class='btn btn-warning' id='history-button' data-toggle='modal' data-target='#historyModal'>
-                        View Visit History
-                        </button>
-                    </div>
-                </div>
-            </div>
+{% extends 'base.html' %}
+{% block content %}
+    <div id='fuder-logo-div'>
+        <img src='static/fuder.png' id='fuder-logo' alt='Fuder'>
+    </div>
+    <div id='button-wrapper'>
+        <div class='modal-button option-buttons'>
+            <button type='button' class='btn btn-warning venue-option-btn' id='restaurant-button' name='restaurant-button' data-venue-type='restaurant' data-toggle='modal' data-target='#optionsModal'>
+            Eat
+            </button>
+            <button type='button' class='btn btn-warning venue-option-btn' id='bar-button' name='bar-button' data-venue-type='bar' data-toggle='modal' data-target='#optionsModal'>
+            Drink
+            </button>
+        </div>
+        <div class='modal-button history-button'>
+            <button type='button' class='btn btn-warning' id='history-button' data-toggle='modal' data-target='#historyModal'>
+            View Visit History
+            </button>
         </div>
     </div>
-    <div id='footer'>
-        <div class='container'>
-            <a href='/logout' class='btn btn-warning'>
-                Log Out
-            </a>
-        </div>
-    </div>
-    <!-- Options-Modal -->
+        <!-- Options-Modal -->
     <div class='modal fade' id='optionsModal' role='dialog'>
         <div class='modal-dialog'>
             <div class='modal-content'>
@@ -70,12 +36,12 @@
                             <label>$ <input type='checkbox' name='price' class='checkbox' value='4' /></label>
                         </div>
                         <p>Where can we pick you up?</p><input type='text' name='user-address' id='field-user-address' required placeholder='Required'>
-                    </div>
                     <div class='modal-footer'>
                         <button type='button' class='btn btn-warning' data-dismiss='modal'>Start Over
                         </button>
                         <input type='submit' class='btn btn-warning' value='Take me out!' id='uber-auth-button'>
                     </form>
+                    </div>
                 </div>
             </div>
         </div>
@@ -89,11 +55,20 @@
                     </ul>
                 </div>
                 <div class='modal-footer'>
-                    <button type='button' class='btn btn-outline-secondary' data-dismiss='modal'>Close
+                    <button type='button' class='btn btn-warning btn-xlarge' data-dismiss='modal'>Close
                     </button>
                 </div>
             </div>
         </div>
     </div>
-</body>
-</html>
+{% endblock %}
+
+{% block footer %}
+    <div id='footer'>
+        <div class='container'>
+            <a href='/logout' class='btn btn-warning' id='footer-button'>
+                Log Out
+            </a>
+        </div>
+    </div>
+{% endblock %}

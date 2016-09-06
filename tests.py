@@ -1,7 +1,5 @@
 import unittest
-import pdb
 from selenium import webdriver
-
 from server import app
 from model import db, connect_to_db, example_data
 
@@ -46,7 +44,7 @@ class LoggedInTests(unittest.TestCase):
 
     def test_registered_homepage(self):
         result = self.client.get('/', follow_redirects=True)
-        self.assertIn('want to do', result.data)
+        self.assertIn('history-button', result.data)
         
     def test_registered_not_redirected_to_login(self):
         result = self.client.get('/', follow_redirects=True)
@@ -54,7 +52,7 @@ class LoggedInTests(unittest.TestCase):
 
     def test_registered_redirected_to_homepage(self):
         result = self.client.get('/login', follow_redirects=True)
-        self.assertIn('want to do', result.data)
+        self.assertIn('history-button', result.data)
 
 
 class SeleniumTests(unittest.TestCase):
@@ -68,7 +66,7 @@ class SeleniumTests(unittest.TestCase):
 
     def test_login_title(self):
         self.browser.get('http://localhost:5000/login')
-        self.assertEqual(self.browser.title, 'Login')
+        self.assertEqual(self.browser.title, 'Fuder')
 
     def test_user_flow_and_submission(self):
         self.browser.get('http://localhost:5000/')
@@ -108,25 +106,6 @@ def _mock_get_start_coordinates(address):
 
 import server
 server.get_start_coordinates = _mock_get_start_coordinates
-
-fake_client = 
-    geocode(address):
-        self.assertEquals(address, expectedAddress)
-        return [{
-            'geometry': {
-                'location': {
-                    la
-                }
-            }
-        }]
-
-geocodeSpy = sinon.spy({ geocode: function() {} })
-clientMock = sinon.stub(googlemaps, 'Client').returns(geocodeSpy)
-
-lat, lng = get_start_coordinates("fake address", clientMock)
-self.assertTrue(geocodeSpy.calledOnce)
-self.assertEquals(geocodeSpy.firstCall.args, ['fake address'])
-self.assertEquals(lat)
 
 if __name__ == "__main__":  # pragma: no cover
     unittest.main()

@@ -25,7 +25,7 @@ They then enter their location:
 
 Uber prompts them for authorization:
 ![](https://cloud.githubusercontent.com/assets/18404713/18288892/05afdb68-7432-11e6-8934-3874fad5d45d.png)
-![](https://cloud.githubusercontent.com/assets/18404713/18288884/05973676-7432-11e6-8871-9d11484a7446.png)
+![](https://cloud.githubusercontent.com/assets/18404713/18292911/babcb71c-7444-11e6-9465-96add8353b97.png)
 
 The request is then completed and users can view a "sneak preview" while they wait for their ride:
 ![](https://cloud.githubusercontent.com/assets/18404713/18288885/0597a5e8-7432-11e6-96fb-f5743f78792f.png)

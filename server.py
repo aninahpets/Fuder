@@ -136,6 +136,9 @@ def send_user_to_destination():
 
 @app.route('/get_options.json')
 def provide_options():
+    """
+    Provides venue options as JSON object based on user venue type request.
+    """
     ven_type = request.args.get('venue-type')
     if ven_type == 'bar':
         options = {'Cocktail Bar': 'cocktailbars', 'Dive Bar': 'divebars',
@@ -153,6 +156,9 @@ def provide_options():
 
 @app.route('/waiting')
 def get_uber_ride_status():
+    """
+    Returns waiting.html template to user with a sneak peek of the selected venue.
+    """
     # get_uber_status()
     # TODO: jsonify uber status and return to AJAX, which will continue to poll
     # return rendertemplate when ride is on way and give options to
@@ -161,6 +167,9 @@ def get_uber_ride_status():
 
 @app.route('/get_image_url.json')
 def get_image_url():
+    """
+    Retrieves venue image URL from db and returns JSON object with the URL.
+    """
     image_url = Venue.get_venue_img()
     return jsonify(image_url)
 

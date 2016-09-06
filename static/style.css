@@ -48,6 +48,10 @@
     text-align: center;
 }
 
+.opts-modal-content {
+    padding-top: 10px;
+}
+
 .content {
     flex-grow: 1;
     width: auto;

@@ -27,22 +27,22 @@
             <div class='modal-content'>
                 <div class='modal-body' id='modal-body'>
                     <form action='/get_user_auth' method='POST'>
-                        <p>What are you in the mood for?</p>
-                        <select name='venue-option' id='venue-options'>
+                        <p class='opts-modal-content'>What are you in the mood for?</p>
+                        <select name='venue-option' id='venue-options'class='opts-modal-content'>
                             <option value='surprise'>Surprise me!</option>
                         </select>
-                        <p>How spendy are you feeling?</p>
+                        <p class='opts-modal-content'>How spendy are you feeling?</p>
                         <div class='price' data-num='1'>
-                            <label>$ <input type='checkbox' name='price' class='checkbox' id='chckbx-1' value='1' /></label>
-                            <label>$ <input type='checkbox' name='price' class='checkbox' value='2' /></label>
-                            <label>$ <input type='checkbox' name='price' class='checkbox' value='3' /></label>
-                            <label>$ <input type='checkbox' name='price' class='checkbox' value='4' /></label>
+                            <label>$ <input type='checkbox' name='price' class='checkbox opts-modal-content' id='chckbx-1' value='1' /></label>
+                            <label>$ <input type='checkbox' name='price' class='checkbox opts-modal-content' value='2' /></label>
+                            <label>$ <input type='checkbox' name='price' class='checkbox opts-modal-content' value='3' /></label>
+                            <label>$ <input type='checkbox' name='price' class='checkbox opts-modal-content' value='4' /></label>
                         </div>
-                        <p>Where can we pick you up?</p><input type='text' name='user-address' id='field-user-address' required placeholder='Required'>
+                        <p class='opts-modal-content'>Where can we pick you up?</p><input type='text' name='user-address' id='field-user-address' required placeholder='Required'>
                     <div class='modal-footer'>
-                        <button type='button' class='btn btn-warning' data-dismiss='modal'>Start Over
+                        <button type='button' class='btn btn-warning opts-modal-content' data-dismiss='modal'>Start Over
                         </button>
-                        <input type='submit' class='btn btn-warning' value='Take me out!' id='uber-auth-button'>
+                        <input type='submit' class='btn btn-warning opts-modal-content' value='Take me out!' id='uber-auth-button'>
                     </form>
                     </div>
                 </div>

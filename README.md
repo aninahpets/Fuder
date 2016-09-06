@@ -1,6 +1,6 @@
 #Fuder
 
-Fuder is an application using the Yelp and Uber APIs (as well as the Google Places API for autocomplete and geocoding) to simplify and add an element of excitement to user excursions. Users authorize the app to make Uber ride requests on their behalf and provide any venue or pricing preferences they may have, along with their current location (the only required user input). Fuder does the rest of the work, retrieving a corresponding highly-rated Yelp business in the vicinity, and making an Uber ride request to transport the user from their current location to the mystery destination. Fuder also tracks users’ visit history and makes this accessible.
+Fuder is an application that uses the Yelp and Uber APIs (as well as the Google Places API for autocomplete and geocoding) to simplify and add an element of excitement to user excursions. Users authorize the app to make Uber ride requests on their behalf and provide their current location (the only required user input), along with any venue type or pricing preferences they may have. Fuder does the rest of the work, retrieving a highly-rated Yelp business in the vicinity, and making an Uber ride request to transport the user from their current location to the mystery destination. Fuder also tracks and allows users to view their visit history.
 
 ##Contents
 * [Tech Stack](#technologies)

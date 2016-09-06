@@ -6,6 +6,7 @@ Fuder is an application that uses the Yelp and Uber APIs (as well as the Google 
 * [Tech Stack](#technologies)
 * [Features](#features)
 * [Installation](#install)
+* [About Me](#aboutme)
 
 ## <a name="technologies"></a>Technologies
 Backend: Python, Flask, PostgreSQL, SQLAlchemy<br/>
@@ -94,3 +95,7 @@ python server.py
 ```
 
 You can now navigate to 'localhost:5000/' to access Fuder.
+
+## <a name="aboutme"></a>About Me
+The developer lives in the San Francisco Bay Area. This is her first software project.
+Visit her on [LinkedIn](www.linkedin.com/in/ninamulholland).

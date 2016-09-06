@@ -30,13 +30,6 @@ def index():
     else:
         return redirect('/login')
 
-# @app.route('/status')
-# def get_status():
-#     if 'count' in session:
-#         session['count'] = session['count'] + 1
-#     else:
-#         session['count'] = 0
-#     return jsonify({'count': session['count']})
 
 ################################################
 # User management routes
@@ -159,10 +152,6 @@ def get_uber_ride_status():
     """
     Returns waiting.html template to user with a sneak peek of the selected venue.
     """
-    # get_uber_status()
-    # TODO: jsonify uber status and return to AJAX, which will continue to poll
-    # return rendertemplate when ride is on way and give options to
-    # cancel/start over
     return render_template('waiting.html')
 
 @app.route('/get_image_url.json')

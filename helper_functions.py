@@ -38,9 +38,6 @@ def request_uber_ride(start_lat, start_lng, end_lat, end_lng,
                         uber_auth_flow, code, state):
     """Send a ride request on behalf of a user."""
 
-# if uber_session in session:
-    # return client(uber_session, sandbox_mode=True)
-    # TODO: Store code and state for when uber_client fails because uber_session is expired***
     uber_auth_url = 'http://0.0.0.0:5000/callback?code=%s&state=%s'
     # Instantiate new session & client object and retrieve credentials
     uber_session = uber_auth_flow.get_session(uber_auth_url % (code, state))
@@ -63,24 +60,6 @@ def request_uber_ride(start_lat, start_lng, end_lat, end_lng,
     visit.ride_id = ride_id
     visit.uber_access_token = access_token
     db.session.commit()
-
-# def get_uber_status():
-#     """Retrieve logged in user's most recent ride request status"""
-#     query_result = db.session.query(Visit.ride_id, Visit.uber_access_token).filter(Visit.user_id==session['user_id']).order_by('visited_at desc').first()
-#     ride_id = query_result.ride_id
-#     access_token = query_result.uber_access_token
-
-#     requests.put('https://api.uber.com/v1/sandbox/requests/%s' % ride_id, 
-#         headers={'Authorization': 'Bearer %s' % access_token, 'Content-Type': 'application/json'},
-#         json="{\"status\": \"accepted\"}")
-
-#     response = requests.get('https://api.uber.com/v1/sandbox/requests/%s' % ride_id, 
-#         headers={'Authorization': 'Bearer %s' % access_token})
-
-    # response = requests.get('https://api.uber.com/v1/requests/%s' % ride_id,
-    #     headers={
-    #         'Authorization': 'Bearer %s' % access_token
-    #     })
 
 def create_yelp_price_cat_params(price, category):
     if price:
@@ -123,10 +102,6 @@ def process_yelp_results(results, start_lat, start_lng):
     # select the business to which we will send the user at random
     optionsnumber = randrange(len(results['businesses']))
     business = results['businesses'][optionsnumber]
-    # TODO: Check user's visit history to avoid repeats
-    # if business['id'] in db.session.query(Venue.venue_id).filter(User.user_id==session['user_id']).all():
-    #     search_yelp()
-
 
     # extract necessary data from json results and store in a dict
     destination = {'name': business['name'],
@@ -135,11 +110,6 @@ def process_yelp_results(results, start_lat, start_lng):
         'longitude': business['coordinates']['longitude'],
         'city': business['location']['city'],
         'image': business['image_url']}
-
-    # destination = destination_from_yelp(results, start_lat, start_lng)
-    # venue = find_or_create_venue(destination)
-    # visit = create_visit(venue, destination)
-
 
     # check to see if the venue exists in the database (create a venue record
     # if not) and create a visit record

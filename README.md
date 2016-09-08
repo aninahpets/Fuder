@@ -98,4 +98,4 @@ You can now navigate to 'localhost:5000/' to access Fuder.
 
 ## <a name="aboutme"></a>About Me
 The developer lives in the San Francisco Bay Area. This is her first software project.
-Visit her on [LinkedIn](www.linkedin.com/in/ninamulholland).
+Visit her on [LinkedIn](http://www.linkedin.com/in/ninamulholland).
